@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Value
 public class BookStatusDto {
     Long id;
+    Long bookId;
     LocalDateTime borrowedAt;
     LocalDateTime dueDate;
     Boolean isFree;

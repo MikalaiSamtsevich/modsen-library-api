@@ -11,4 +11,6 @@ public interface BookStatusRepository extends JpaRepository<BookStatus, Long>, J
 
     @Query("SELECT bs FROM BookStatus bs WHERE bs.isFree = true")
     Page<BookStatus> findAllFreeBooks(Pageable pageable);
+
+    void deleteBookStatusByBookId(Long bookId);
 }

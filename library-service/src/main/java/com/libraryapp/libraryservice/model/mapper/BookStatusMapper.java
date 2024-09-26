@@ -19,4 +19,6 @@ public interface BookStatusMapper {
     BookStatus updateWithNull(BookStatusDto bookStatusDto, @MappingTarget BookStatus bookStatus);
 
     BookStatus updateWithNull(BookStatusWithoutIdDto bookStatusDto, @MappingTarget BookStatus bookStatus);
+
+    BookStatus toEntity(BookStatusWithoutIdDto bookStatusWithoutIdDto);
 }

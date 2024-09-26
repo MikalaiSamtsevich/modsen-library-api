@@ -1,2 +1,3 @@
 rootProject.name = 'modsen-library-api'
 include 'book-service'
+include 'library-service'

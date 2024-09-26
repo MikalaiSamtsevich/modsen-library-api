@@ -7,8 +7,8 @@
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
     <changeSet id="1727358437680-1" author="Mikalai">
         <createTable tableName="author">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_author"/>
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -17,8 +17,8 @@
     </changeSet>
     <changeSet id="1727358437680-2" author="Mikalai">
         <createTable tableName="book">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_book"/>
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
             </column>
             <column name="isbn" type="VARCHAR(13)">
                 <constraints nullable="false"/>

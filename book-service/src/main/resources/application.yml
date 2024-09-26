@@ -19,6 +19,10 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: validate
+  kafka:
+    consumer:
+      group-id: library_group
+    bootstrap-servers: localhost:9092
 springdoc:
   swagger-ui:
     enabled: true

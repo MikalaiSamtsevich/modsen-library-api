@@ -12,11 +12,14 @@ import java.time.LocalDateTime;
 @Table(name = "book_status")
 public class BookStatus {
     @Id
-    @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "borrowed_at", nullable = false)
+    @Column(name = "book_id", unique = true)
+    private Long bookId;
+
+    @Column(name = "borrowed_at")
     private LocalDateTime borrowedAt;
 
     @Column(name = "due_date", nullable = false)

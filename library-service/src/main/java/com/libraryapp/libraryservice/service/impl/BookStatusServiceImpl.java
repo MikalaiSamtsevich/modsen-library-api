@@ -33,6 +33,13 @@ public class BookStatusServiceImpl implements BookStatusService {
 
     @Transactional(readOnly = true)
     @Override
+    public Page<BookStatusDto> getFreeBooks(Pageable pageable) {
+        Page<BookStatus> bookStatuses = bookStatusRepository.findAllFreeBooks(pageable);
+        return bookStatuses.map(bookStatusMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public Page<BookStatusDto> getList(Pageable pageable) {
         Page<BookStatus> bookStatuses = bookStatusRepository.findAll(pageable);
         return bookStatuses.map(bookStatusMapper::toDto);
@@ -84,13 +91,6 @@ public class BookStatusServiceImpl implements BookStatusService {
         return resultBookStatuses.stream()
                 .map(BookStatus::getId)
                 .toList();
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Page<BookStatusDto> getFreeBooks(Pageable pageable) {
-        Page<BookStatus> bookStatuses = bookStatusRepository.findAllFreeBooks(pageable);
-        return bookStatuses.map(bookStatusMapper::toDto);
     }
 
 }
