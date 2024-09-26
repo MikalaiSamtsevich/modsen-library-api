@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.libraryapp.bookservice.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

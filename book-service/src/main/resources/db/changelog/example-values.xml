@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Создание авторов -->
+    <changeSet id="insert-authors" author="Mikalai">
+        <insert tableName="author">
+            <column name="name" value="Author One"/>
+        </insert>
+        <insert tableName="author">
+            <column name="name" value="Author Two"/>
+        </insert>
+        <insert tableName="author">
+            <column name="name" value="Author Three"/>
+        </insert>
+        <insert tableName="author">
+            <column name="name" value="Author Four"/>
+        </insert>
+    </changeSet>
+
+    <!-- Создание книг -->
+    <changeSet id="insert-books" author="Mikalai">
+        <insert tableName="book">
+            <column name="isbn" value="9783161484100"/>
+            <column name="title" value="Book One"/>
+            <column name="genre" value="ROMANCE"/>
+            <column name="description" value="This is the first book description."/>
+            <column name="author_id" value="1"/>
+        </insert>
+        <insert tableName="book">
+            <column name="isbn" value="9781603090575"/>
+            <column name="title" value="Book Two"/>
+            <column name="genre" value="MYSTERY"/>
+            <column name="description" value="This is the second book description."/>
+            <column name="author_id" value="2"/>
+        </insert>
+        <insert tableName="book">
+            <column name="isbn" value="9780062411675"/>
+            <column name="title" value="Book Three"/>
+            <column name="genre" value="FICTION"/>
+            <column name="description" value="This is the third book description."/>
+            <column name="author_id" value="3"/>
+        </insert>
+        <insert tableName="book">
+            <column name="isbn" value="9780062411682"/>
+            <column name="title" value="Book Four"/>
+            <column name="genre" value="THRILLER"/>
+            <column name="description" value="This is the fourth book description."/>
+            <column name="author_id" value="4"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.libraryapp.bookservice.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
@@ -17,7 +17,7 @@ public class Book {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Pattern(regexp = "^(97[89])?\\d{9}[0-9X]$", message = "Invalid ISBN format")
+    @Pattern(message = "Invalid ISBN format", regexp = "^(97[89])?-?\\d{9}-?([0-9X])$")
     @Column(name = "isbn", nullable = false, unique = true, length = 13)
     private String isbn;
 
@@ -28,7 +28,13 @@ public class Book {
     private String title;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.MERGE,
+            CascadeType.REFRESH
+    }, optional = false)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
