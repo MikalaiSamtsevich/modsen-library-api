@@ -22,5 +22,14 @@ spring:
     consumer:
       group-id: library_group
     bootstrap-servers: localhost:9092
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8093/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
 app:
   weeks-until-due: 4
