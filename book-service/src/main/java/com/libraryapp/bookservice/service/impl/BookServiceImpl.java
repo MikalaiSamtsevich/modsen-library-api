@@ -24,8 +24,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookMapper bookMapper;

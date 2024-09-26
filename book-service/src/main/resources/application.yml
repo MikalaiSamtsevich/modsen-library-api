@@ -5,6 +5,7 @@ spring:
     name: book-service
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
+    drop-first: true
   datasource:
     url: jdbc:postgresql://localhost:5432/bookdb
     username: admin
