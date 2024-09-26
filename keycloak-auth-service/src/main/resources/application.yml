@@ -25,6 +25,11 @@ eureka:
     hostname: localhost
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8093/eureka/}
+      defaultZone: http://localhost:8093/eureka/
     register-with-eureka: true
     fetch-registry: true
+springdoc:
+  api-docs:
+    path: /auth-service-docs/v3/api-docs
+  swagger-ui:
+    path: /auth-service-docs/swagger-ui.html
