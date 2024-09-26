@@ -74,9 +74,9 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id `%s` not found".formatted(id)));
 
-        ResponseBookDtoV1 responseBookDtoV1 = bookMapper.toDto(book);
-        objectMapper.readerForUpdating(responseBookDtoV1).readValue(patchNode);
-        bookMapper.partialUpdate(responseBookDtoV1, book);
+        RequestBookDtoV1 requestBookDtoV1 = bookMapper.toDtoWithoutId(book);
+        objectMapper.readerForUpdating(requestBookDtoV1).readValue(patchNode);
+        bookMapper.partialUpdate(requestBookDtoV1, book);
 
         Book resultBook = bookRepository.save(book);
         return bookMapper.toDto(resultBook);
@@ -88,9 +88,9 @@ public class BookServiceImpl implements BookService {
         Collection<Book> books = bookRepository.findAllById(ids);
 
         for (Book book : books) {
-            ResponseBookDtoV1 responseBookDtoV1 = bookMapper.toDto(book);
-            objectMapper.readerForUpdating(responseBookDtoV1).readValue(patchNode);
-            bookMapper.partialUpdate(responseBookDtoV1, book);
+            RequestBookDtoV1 requestBookDtoV1 = bookMapper.toDtoWithoutId(book);
+            objectMapper.readerForUpdating(requestBookDtoV1).readValue(patchNode);
+            bookMapper.partialUpdate(requestBookDtoV1, book);
         }
 
         List<Book> resultBooks = bookRepository.saveAll(books);

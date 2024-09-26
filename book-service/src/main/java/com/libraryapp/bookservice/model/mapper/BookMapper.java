@@ -12,6 +12,11 @@ public interface BookMapper {
 
     ResponseBookDtoV1 toDto(Book book);
 
+    RequestBookDtoV1 toDtoWithoutId(Book book);
+
     @org.mapstruct.BeanMapping(nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
     Book partialUpdate(ResponseBookDtoV1 responseBookDtoV1, @org.mapstruct.MappingTarget Book book);
+
+    @org.mapstruct.BeanMapping(nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.IGNORE)
+    Book partialUpdate(RequestBookDtoV1 responseBookDtoV1, @org.mapstruct.MappingTarget Book book);
 }
