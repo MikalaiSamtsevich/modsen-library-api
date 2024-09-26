@@ -22,4 +22,7 @@ public class BookStatus {
     @Column(name = "due_date", nullable = false)
     private LocalDateTime dueDate;
 
+    @Column(name = "is_free", nullable = false)
+    private Boolean isFree = false;
+
 }
