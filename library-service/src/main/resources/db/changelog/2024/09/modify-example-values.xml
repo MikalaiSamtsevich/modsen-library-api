@@ -6,7 +6,7 @@
 
     <changeSet id="update-book-status-is-free" author="Mikalai">
         <update tableName="book_status">
-            <column name="is_free" value="false"/>
+            <column name="is_free" value="true"/>
             <where>book_id IN (2, 3)</where>
         </update>
     </changeSet>
