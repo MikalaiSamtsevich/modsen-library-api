@@ -1,3 +1,30 @@
+server:
+  port: 8092
 spring:
   application:
     name: keycloak-auth-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9082/realms/spring-boot
+          jwk-set-uri: http://localhost:9082/realms/spring-boot/protocol/openid-connect/certs
+app:
+  keycloak:
+    admin:
+      client-id: admin-cli
+      client-secret: 1vnzZCt6TLtE1jjOvppdDsuRbLApTGb4
+    user:
+      client-id: spring-boot-app
+    realm: spring-boot
+    server-url: http://localhost:9082
+    grant-type: client_credentials
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8093/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
