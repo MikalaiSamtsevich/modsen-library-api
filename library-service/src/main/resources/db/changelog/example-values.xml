@@ -21,6 +21,10 @@
             <column name="borrowed_at" valueDate="2024-09-26T15:30:00"/>
             <column name="due_date" valueDate="2024-10-03T15:30:00"/>
         </insert>
+        <insert tableName="book_status">
+            <column name="book_id" value="4"/>
+            <column name="due_date" valueDate="2024-10-03T15:30:00"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

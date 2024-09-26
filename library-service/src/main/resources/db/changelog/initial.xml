@@ -10,7 +10,7 @@
             <column autoIncrement="true" name="book_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_book_status"/>
             </column>
-            <column name="borrowed_at" type="DATETIME">
+            <column name="borrowed_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="due_date" type="DATETIME">
