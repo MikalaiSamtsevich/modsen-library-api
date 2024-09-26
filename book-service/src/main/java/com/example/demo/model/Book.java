@@ -1,4 +1,4 @@
-package com.libraryapp.bookservice.model;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
@@ -31,5 +31,9 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genre", nullable = false)
+    private Genre genre;
 
 }
