@@ -95,12 +95,13 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:25.0.6
     restart: always
-    command:
-      - "start-dev"
+    command: start-dev --import-realm
+    volumes:
+      - ./../keycloak:/opt/keycloak/data/import
     ports:
-      - "9080:9080"
+      - "9082:9082"
     environment:
-      KC_HTTP_PORT: 9080
+      KC_HTTP_PORT: 9082
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
@@ -110,9 +111,11 @@ services:
       KC_DB_USERNAME: admin
       KC_DB_PASSWORD: root
       KC_HEALTH_ENABLED: "true"
+      KC_HOSTNAME: localhost
+      KC_FEATURES: token-exchange,admin-fine-grained-authz
     healthcheck:
       test:
-        [ "CMD-SHELL", "{ exec 3<>/dev/tcp/localhost/9080 && echo -e \"GET /health/ready HTTP/1.1\nhost: localhost:9080\n\" >&3 && timeout --preserve-status 1 cat <&3 | grep -m 1 -q 'status.*UP'; }" ]
+        [ "CMD-SHELL", "{ exec 3<>/dev/tcp/localhost/9082 && echo -e \"GET /health/ready HTTP/1.1\nhost: localhost:9082\n\" >&3 && timeout --preserve-status 1 cat <&3 | grep -m 1 -q 'status.*UP'; }" ]
       interval: 10s
       timeout: 5s
       start_period: 60s
