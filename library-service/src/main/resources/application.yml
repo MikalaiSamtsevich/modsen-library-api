@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: library-service
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate: format_sql=true
+  datasource:
+    url: jdbc:postgresql://localhost:5433/librarydb
+    username: admin
+    password: root
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    drop-first: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
