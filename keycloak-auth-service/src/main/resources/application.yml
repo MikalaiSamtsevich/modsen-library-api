@@ -30,6 +30,6 @@ eureka:
     fetch-registry: true
 springdoc:
   api-docs:
-    path: /auth-service-docs/v3/api-docs
+    path: /keycloak-auth-service-docs/v3/api-docs
   swagger-ui:
-    path: /auth-service-docs/swagger-ui.html
+    path: /keycloak-auth-service-docs/swagger-ui.html

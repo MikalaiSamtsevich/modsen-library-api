@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/auth/register").permitAll()
                         .requestMatchers("/auth/users/forgot-password").permitAll()
                         .requestMatchers("/auth/users/{id}/send-verification-email").permitAll()
-                        .requestMatchers("/auth-service-docs/**").permitAll()
+                        .requestMatchers("/keycloak-auth-service-docs/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )

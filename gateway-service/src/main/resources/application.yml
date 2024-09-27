@@ -9,6 +9,12 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:9082/realms/spring-boot}
+          jwk-set-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI:http://localhost:9082/realms/spring-boot/protocol/openid-connect/certs}
 eureka:
   instance:
     prefer-ip-address: true
@@ -27,3 +33,18 @@ management:
       exposure:
         include: "*"
     enabled-by-default: true
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /book-service-docs/v3/api-docs
+        name: Book Service
+      - url: /library-service-docs/v3/api-docs
+        name: Library Service
+      - url: /keycloak-auth-service-docs/v3/api-docs
+        name: Keycloak Service

@@ -31,5 +31,10 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
+springdoc:
+  api-docs:
+    path: /library-service-docs/v3/api-docs
+  swagger-ui:
+    path: /library-service-docs/swagger-ui.html
 app:
   weeks-until-due: 4
