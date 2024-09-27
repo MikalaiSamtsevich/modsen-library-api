@@ -3,6 +3,7 @@ package com.libraryapp.keycloakauthservice.service.impl;
 import com.libraryapp.keycloakauthservice.model.NewUserRecord;
 import com.libraryapp.keycloakauthservice.model.UserLoginRecord;
 import com.libraryapp.keycloakauthservice.service.UserService;
+import com.libraryapp.keycloakauthservice.util.KeycloakEvent;
 import com.libraryapp.keycloakauthservice.util.StatusCodeValidator;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
@@ -92,5 +93,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResource findUserById(String userId) {
         return usersResource.get(userId);
+    }
+
+    @Override
+    public void forgotPassword(String username) {
+        UserResource userResource = usersResource.get(usersResource.search(username).get(0).getId());
+
+        userResource.executeActionsEmail(List.of(KeycloakEvent.UPDATE_PASSWORD.getEvent()));
     }
 }

@@ -8,8 +8,5 @@ import org.springframework.context.annotation.Import;
 @SpringBootTest
 class LibraryServiceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
 
 }

@@ -15,5 +15,7 @@ public interface UserService {
 
     UserResource findUserById(String userId);
 
+    void forgotPassword(String username);
+
     void deleteUser(String userId);
 }

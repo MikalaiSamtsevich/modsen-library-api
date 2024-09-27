@@ -33,3 +33,8 @@ springdoc:
     path: /keycloak-auth-service-docs/v3/api-docs
   swagger-ui:
     path: /keycloak-auth-service-docs/swagger-ui.html
+openapi:
+  service:
+    title: Keycloak Auth Service Docs
+    version: 1.0.0
+    url: ${OPENAPI_SERVICE_URL:http://localhost:8092}

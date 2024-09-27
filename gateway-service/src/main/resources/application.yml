@@ -24,6 +24,7 @@ eureka:
       defaultZone: http://localhost:8093/eureka/
     register-with-eureka: true
     fetch-registry: true
+    registry-fetch-interval-seconds: 5
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
