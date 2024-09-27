@@ -92,10 +92,11 @@ services:
       timeout: 5s
       start_period: 10s
       retries: 5
+
   keycloak:
     image: quay.io/keycloak/keycloak:25.0.6
     restart: always
-    command: start-dev --import-realm
+    command: start-dev --import-realm --health-enabled=true
     volumes:
       - ./../keycloak:/opt/keycloak/data/import
     ports:
@@ -110,18 +111,33 @@ services:
       KC_DB_URL_DATABASE: keycloak
       KC_DB_USERNAME: admin
       KC_DB_PASSWORD: root
-      KC_HEALTH_ENABLED: "true"
+      KC_HEALTH_ENABLED: true
       KC_HOSTNAME: localhost
       KC_FEATURES: token-exchange,admin-fine-grained-authz
     healthcheck:
       test:
-        [ "CMD-SHELL", "{ exec 3<>/dev/tcp/localhost/9082 && echo -e \"GET /health/ready HTTP/1.1\nhost: localhost:9082\n\" >&3 && timeout --preserve-status 1 cat <&3 | grep -m 1 -q 'status.*UP'; }" ]
-      interval: 10s
+        [ "CMD-SHELL", "{ exec 3<>/dev/tcp/localhost/9000 && echo -e \"GET /health/ready HTTP/1.1\nhost: localhost:9000\n\" >&3 && timeout --preserve-status 1 cat <&3 | grep -m 1 -q 'status.*UP'; }" ]
+      interval: 5s
       timeout: 5s
-      start_period: 60s
-      retries: 5
+      start_period: 30s
+      retries: 10
     depends_on:
       - kc-postgres
+
+  # keycloak-init service initializes Keycloak users using a script.
+  # The service will not restart after execution (restart: "no").
+  # It depends on the Keycloak service being healthy before running.
+  # YOU CAN REMOVE THIS CONTAINER IT AFTER FIRST START
+  keycloak-init:
+    image: curlimages/curl:latest
+    restart: "no"
+    volumes:
+      - ./../keycloak/init_example_users.sh:/init_example_users.sh
+    entrypoint: [ "sh", "/init_example_users.sh" ]
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
 volumes:
   postgres_data:
   postgres-library-service_data:
