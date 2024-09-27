@@ -3,6 +3,12 @@ server:
 spring:
   application:
     name: library-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:9082/realms/spring-boot}
+          jwk-set-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI:http://localhost:9082/realms/spring-boot/protocol/openid-connect/certs}
   jpa:
     open-in-view: false
     show-sql: true
@@ -36,5 +42,10 @@ springdoc:
     path: /library-service-docs/v3/api-docs
   swagger-ui:
     path: /library-service-docs/swagger-ui.html
+openapi:
+  service:
+    title: Library Service Docs
+    version: 1.0.0
+    url: ${OPENAPI_SERVICE_URL:http://localhost:8062}
 app:
   weeks-until-due: 4

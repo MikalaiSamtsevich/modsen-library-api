@@ -3,6 +3,12 @@ server:
 spring:
   application:
     name: book-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:9082/realms/spring-boot}
+          jwk-set-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI:http://localhost:9082/realms/spring-boot/protocol/openid-connect/certs}
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
     drop-first: true
@@ -37,3 +43,8 @@ springdoc:
     path: /book-service-docs/v3/api-docs
   swagger-ui:
     path: /book-service-docs/swagger-ui.html
+openapi:
+  service:
+    title: Book Service Docs
+    version: 1.0.0
+    url: ${OPENAPI_SERVICE_URL:http://localhost:8063}

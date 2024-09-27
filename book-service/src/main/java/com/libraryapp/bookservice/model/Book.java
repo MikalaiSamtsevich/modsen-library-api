@@ -17,8 +17,8 @@ public class Book {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Pattern(message = "Invalid ISBN format", regexp = "^(97[89])?-?\\d{9}-?([0-9X])$")
-    @Column(name = "isbn", nullable = false, unique = true, length = 13)
+    @Pattern(regexp = "^(97[89])?\\d{9}[0-9X]$", message = "Invalid ISBN format")
+    @Column(name = "isbn", nullable = false, unique = true, length = 25)
     private String isbn;
 
     @Column(columnDefinition = "TEXT", nullable = false)

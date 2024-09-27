@@ -9,7 +9,7 @@ import lombok.Value;
  */
 @Value
 public class RequestBookDtoV1 {
-    @Pattern(message = "Invalid ISBN format", regexp = "^(97[89])?-?\\d{9}-?([0-9X])$")
+    @Pattern(regexp = "^(97[89])?\\d{9}[0-9X]$", message = "Invalid ISBN format")
     String isbn;
     String description;
     String title;

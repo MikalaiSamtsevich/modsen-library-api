@@ -1,6 +1,6 @@
-package com.libraryapp.keycloakauthservice.config;
+package com.libraryapp.libraryservice.config;
 
-import com.libraryapp.keycloakauthservice.util.KeycloakJwtAuthenticationConverter;
+import com.libraryapp.libraryservice.util.KeycloakJwtAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,16 +26,12 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/auth/register").permitAll()
-                        .requestMatchers("/auth/users/forgot-password").permitAll()
-                        .requestMatchers("/auth/users/{id}/send-verification-email").permitAll()
-                        .requestMatchers("/keycloak-auth-service-docs/**").permitAll()
+                        .requestMatchers("/library-service-docs/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/groups/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/groups/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/roles/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/roles/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/v1/books/status").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET, "/v1/books/status/*").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PATCH, "/v1/books/status").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/v1/books/status/*").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oath2 -> oath2
                         .jwt(jwt -> jwt
@@ -60,4 +56,5 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 }

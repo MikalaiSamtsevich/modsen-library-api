@@ -35,7 +35,6 @@ management:
         include: "*"
     enabled-by-default: true
 springdoc:
-  enable-native-support: true
   api-docs:
     enabled: true
   swagger-ui:

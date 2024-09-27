@@ -1,6 +1,6 @@
-package com.libraryapp.keycloakauthservice.config;
+package com.libraryapp.bookservice.config;
 
-import com.libraryapp.keycloakauthservice.util.KeycloakJwtAuthenticationConverter;
+import com.libraryapp.bookservice.util.KeycloakJwtAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,16 +26,14 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/auth/register").permitAll()
-                        .requestMatchers("/auth/users/forgot-password").permitAll()
-                        .requestMatchers("/auth/users/{id}/send-verification-email").permitAll()
-                        .requestMatchers("/keycloak-auth-service-docs/**").permitAll()
+                        .requestMatchers("/book-service-docs/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/groups/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/groups/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/roles/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/roles/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/books").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/v1/books").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/books").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/v1/books/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/books/*").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oath2 -> oath2
                         .jwt(jwt -> jwt
@@ -47,6 +45,7 @@ public class WebSecurityConfig {
                 .cors(cors -> corsFilter())
                 .build();
     }
+
 
     @Bean
     public CorsFilter corsFilter() {
