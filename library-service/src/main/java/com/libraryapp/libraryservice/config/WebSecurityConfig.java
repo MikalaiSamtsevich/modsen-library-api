@@ -2,6 +2,7 @@ package com.libraryapp.libraryservice.config;
 
 import com.libraryapp.libraryservice.util.KeycloakJwtAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,9 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final KeycloakJwtAuthenticationConverter keycloakJwtAuthenticationConverter;
+
+    @Value("${app.allowed-origin}")
+    private String allowedOrigin;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

@@ -36,6 +36,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/groups/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/roles/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/roles/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/users/*").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oath2 -> oath2
                         .jwt(jwt -> jwt

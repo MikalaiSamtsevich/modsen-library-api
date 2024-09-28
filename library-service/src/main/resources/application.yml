@@ -17,9 +17,9 @@ spring:
     hibernate:
       ddl-auto: validate
   datasource:
-    url: jdbc:postgresql://localhost:5433/librarydb
-    username: admin
-    password: root
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5433}/${POSTGRES_DB_NAME:librarydb}
+    username: ${POSTGRES_USERNAME:admin}
+    password: ${POSTGRES_PASSWORD:root}
     driver-class-name: org.postgresql.Driver
   liquibase:
     drop-first: true
@@ -27,11 +27,11 @@ spring:
   kafka:
     consumer:
       group-id: library_group
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8093/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8093/eureka/}
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -46,6 +46,7 @@ openapi:
   service:
     title: Library Service Docs
     version: 1.0.0
-    url: ${OPENAPI_SERVICE_URL:http://localhost:8062}
+    url: http://localhost:8062
 app:
   weeks-until-due: 4
+  allowed-origin: http://localhost:8091

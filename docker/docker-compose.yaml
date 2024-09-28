@@ -112,7 +112,6 @@ services:
       KC_DB_USERNAME: admin
       KC_DB_PASSWORD: root
       KC_HEALTH_ENABLED: true
-      KC_HOSTNAME: localhost
       KC_FEATURES: token-exchange,admin-fine-grained-authz
     healthcheck:
       test:
@@ -120,7 +119,7 @@ services:
       interval: 5s
       timeout: 5s
       start_period: 30s
-      retries: 10
+      retries: 20
     depends_on:
       - kc-postgres
 
@@ -137,6 +136,95 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
+  book-service:
+    image: book-service:latest
+    build:
+      context: ../book-service
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: always
+    ports:
+      - "8063:8063"
+    depends_on:
+      - postgres-book-service
+      - kafka
+      - keycloak-init
+    env_file: ../book-service/example.env
+  library-service:
+    image: library-service:latest
+    build:
+      context: ../library-service
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: always
+    ports:
+      - "8062:8062"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8062/actuator/health || exit 1
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    depends_on:
+      - postgres-library-service
+      - kafka
+      - keycloak-init
+    env_file: ../library-service/example.env
+  eureka-service:
+    image: eureka-service:latest
+    build:
+      context: ../eureka-service
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: always
+    ports:
+      - "8093:8093"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8093/actuator/health || exit 1
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    env_file: ../eureka-service/example.env
+  keycloak-auth-service:
+    image: keycloak-auth-service:latest
+    build:
+      context: ../keycloak-auth-service
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: always
+    ports:
+      - "8092:8092"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8092/actuator/health || exit 1
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    depends_on:
+      - keycloak
+    env_file: ../keycloak-auth-service/example.env
+  gateway-service:
+    image: gateway-service:latest
+    build:
+      context: ../gateway-service
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: always
+    ports:
+      - "8091:8091"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8091/actuator/health || exit 1
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    depends_on:
+      - eureka-service
+      - library-service
+      - book-service
+      - keycloak-auth-service
+    env_file: ../gateway-service/example.env
 
 volumes:
   postgres_data:
