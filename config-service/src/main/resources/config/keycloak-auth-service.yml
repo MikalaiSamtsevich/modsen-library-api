@@ -1,0 +1,56 @@
+server:
+  port: 8092
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:9082/realms/spring-boot}
+          jwk-set-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI:http://localhost:9082/realms/spring-boot/protocol/openid-connect/certs}
+app:
+  keycloak:
+    admin:
+      client-id: ${APP_KEYCLOAK_ADMIN_CLIENT_ID:admin-cli}
+      client-secret: ${APP_KEYCLOAK_ADMIN_CLIENT_SECRET:1vnzZCt6TLtE1jjOvppdDsuRbLApTGb4}
+    user:
+      client-id: ${APP_KEYCLOAK_USER_CLIENT_ID:spring-boot-app}
+    realm: ${APP_KEYCLOAK_REALM:spring-boot}
+    server-url: ${APP_KEYCLOAK_SERVER_URL:http://localhost:9082}
+    grant-type: ${APP_KEYCLOAK_GRANT_TYPE:client_credentials}
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8093/eureka}
+    register-with-eureka: true
+    fetch-registry: true
+springdoc:
+  api-docs:
+    path: /keycloak-auth-service-docs/v3/api-docs
+  swagger-ui:
+    path: /keycloak-auth-service-docs/swagger-ui.html
+openapi:
+  service:
+    title: Keycloak Auth Service Docs
+    version: 1.0.0
+    url: http://localhost:8092
+otel:
+  exporter:
+    otlp:
+      logs:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:http://localhost:4317}
+      traces:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4317}
+      metrics:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://localhost:4317}
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+  resource:
+    attributes:
+      service.name: keycloak-auth-service
+      service: keycloak-auth-service
+      env: dev

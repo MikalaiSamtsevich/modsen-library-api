@@ -1,0 +1,28 @@
+server:
+  port: 8093
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8093/eureka/}
+  instance:
+    hostname: localhost
+otel:
+  exporter:
+    otlp:
+      logs:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:http://localhost:4317}
+      traces:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4317}
+      metrics:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://localhost:4317}
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+  resource:
+    attributes:
+      service.name: eureka-service
+      service: eureka-service
+      env: dev

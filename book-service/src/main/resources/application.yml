@@ -1,70 +1,8 @@
-server:
-  port: 8063
 spring:
   application:
     name: book-service
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:9082/realms/spring-boot}
-          jwk-set-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI:http://localhost:9082/realms/spring-boot/protocol/openid-connect/certs}
-  liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.xml
-    drop-first: true
-  datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5432}/${POSTGRES_DB_NAME:bookdb}
-    username: ${POSTGRES_USERNAME:admin}
-    password: ${POSTGRES_PASSWORD:root}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    open-in-view: false
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: validate
-  kafka:
-    producer:
-      value-serializer: org.apache.kafka.common.serialization.LongSerializer
-    consumer:
-      group-id: library_group
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8093/eureka}
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-springdoc:
-  api-docs:
-    path: /book-service-docs/v3/api-docs
-  swagger-ui:
-    path: /book-service-docs/swagger-ui.html
-openapi:
-  service:
-    title: Book Service Docs
-    version: 1.0.0
-    url: http://localhost:8063
-otel:
-  exporter:
-    otlp:
-      logs:
-        protocol: grpc
-        endpoint: ${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:http://localhost:4317}
-      traces:
-        protocol: grpc
-        endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4317}
-      metrics:
-        protocol: grpc
-        endpoint: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://localhost:4317}
-      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
-  resource:
-    attributes:
-      service.name: book-service
-      service: book-service
-      env: dev
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      uri: ${CLOUD_CONFIG_URI:http://localhost:8099}

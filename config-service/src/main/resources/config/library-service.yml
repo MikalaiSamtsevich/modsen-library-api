@@ -1,0 +1,68 @@
+server:
+  port: 8062
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:9082/realms/spring-boot}
+          jwk-set-uri: ${SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI:http://localhost:9082/realms/spring-boot/protocol/openid-connect/certs}
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate: format_sql=true
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5433}/${POSTGRES_DB_NAME:librarydb}
+    username: ${POSTGRES_USERNAME:admin}
+    password: ${POSTGRES_PASSWORD:root}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    drop-first: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+  kafka:
+    consumer:
+      group-id: library_group
+      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8093/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+springdoc:
+  api-docs:
+    path: /library-service-docs/v3/api-docs
+  swagger-ui:
+    path: /library-service-docs/swagger-ui.html
+openapi:
+  service:
+    title: Library Service Docs
+    version: 1.0.0
+    url: http://localhost:8062
+otel:
+  exporter:
+    otlp:
+      logs:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:http://localhost:4317}
+      traces:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4317}
+      metrics:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://localhost:4317}
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+  resource:
+    attributes:
+      service.name: library-service
+      service: library-service
+      env: dev
+app:
+  weeks-until-due: 4

@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-service
+server:
+  port: 8099
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info
