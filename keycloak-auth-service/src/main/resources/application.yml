@@ -38,3 +38,21 @@ openapi:
     title: Keycloak Auth Service Docs
     version: 1.0.0
     url: http://localhost:8092
+otel:
+  exporter:
+    otlp:
+      logs:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:http://localhost:4317}
+      traces:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4317}
+      metrics:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://localhost:4317}
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+  resource:
+    attributes:
+      service.name: keycloak-auth-service
+      service: keycloak-auth-service
+      env: dev

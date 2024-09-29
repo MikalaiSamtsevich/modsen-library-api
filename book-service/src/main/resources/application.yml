@@ -26,6 +26,8 @@ spring:
     hibernate:
       ddl-auto: validate
   kafka:
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.LongSerializer
     consumer:
       group-id: library_group
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
@@ -48,3 +50,21 @@ openapi:
     title: Book Service Docs
     version: 1.0.0
     url: http://localhost:8063
+otel:
+  exporter:
+    otlp:
+      logs:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:http://localhost:4317}
+      traces:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4317}
+      metrics:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://localhost:4317}
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+  resource:
+    attributes:
+      service.name: book-service
+      service: book-service
+      env: dev

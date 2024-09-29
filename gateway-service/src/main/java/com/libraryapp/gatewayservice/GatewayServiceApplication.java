@@ -25,5 +25,4 @@ public class GatewayServiceApplication {
                 .route(r -> r.path("/keycloak-auth-service-docs/v3/api-docs").and().method(HttpMethod.GET).uri("lb://keycloak-auth-service"))
                 .build();
     }
-
 }

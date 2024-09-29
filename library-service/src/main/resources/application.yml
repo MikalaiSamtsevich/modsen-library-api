@@ -27,6 +27,7 @@ spring:
   kafka:
     consumer:
       group-id: library_group
+      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 eureka:
   client:
@@ -47,6 +48,23 @@ openapi:
     title: Library Service Docs
     version: 1.0.0
     url: http://localhost:8062
+otel:
+  exporter:
+    otlp:
+      logs:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_LOGS_ENDPOINT:http://localhost:4317}
+      traces:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4317}
+      metrics:
+        protocol: grpc
+        endpoint: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://localhost:4317}
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4317}
+  resource:
+    attributes:
+      service.name: library-service
+      service: library-service
+      env: dev
 app:
   weeks-until-due: 4
-  allowed-origin: http://localhost:8091

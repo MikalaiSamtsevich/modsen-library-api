@@ -21,7 +21,7 @@ public class KafkaBookService {
     private Integer weeksUntilDue;
 
     @Transactional
-    @KafkaListener(topics = "book_create_topic", containerFactory = "longListenerFactory")
+    @KafkaListener(topics = "book_create_topic")
     public void consumeAndCreate(Long id) {
         log.info("Received id {} in book_create_topic", id);
         BookStatus bookStatus = new BookStatus();
@@ -33,7 +33,7 @@ public class KafkaBookService {
     }
 
     @Transactional
-    @KafkaListener(topics = "book_delete_topic", containerFactory = "longListenerFactory")
+    @KafkaListener(topics = "book_delete_topic")
     public void consumeAndDelete(Long id) {
         log.info("Received id {} in book_delete_topic", id);
         bookStatusRepository.deleteBookStatusByBookId(id);
