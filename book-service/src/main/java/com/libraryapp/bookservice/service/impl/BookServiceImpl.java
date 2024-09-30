@@ -2,6 +2,8 @@ package com.libraryapp.bookservice.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.libraryapp.bookservice.exception.BookAlreadyExistsException;
+import com.libraryapp.bookservice.kafka.producer.KafkaBookProducer;
 import com.libraryapp.bookservice.model.Book;
 import com.libraryapp.bookservice.model.dto.RequestBookDtoV1;
 import com.libraryapp.bookservice.model.dto.ResponseBookDtoV1;
@@ -11,6 +13,7 @@ import com.libraryapp.bookservice.repository.AuthorRepository;
 import com.libraryapp.bookservice.repository.BookRepository;
 import com.libraryapp.bookservice.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,6 +35,7 @@ public class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
     private final ObjectMapper objectMapper;
+    private final KafkaBookProducer kafkaBookProducer;
 
     @Transactional(readOnly = true)
     @Override
@@ -64,8 +68,13 @@ public class BookServiceImpl implements BookService {
         Book book = bookMapper.toEntity(dto);
         book.setAuthor(authorRepository.findById(dto.getAuthorId()).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Author with id `%s` not found".formatted(dto.getAuthorId()))));
-        Book resultBook = bookRepository.save(book);
-        return bookMapper.toDto(resultBook);
+        try {
+            Book resultBook = bookRepository.save(book);
+            kafkaBookProducer.sendBookCreatedMessage(resultBook.getId());
+            return bookMapper.toDto(resultBook);
+        } catch (DataIntegrityViolationException e) {
+            throw new BookAlreadyExistsException("A book with ISBN " + book.getIsbn() + " already exists.");
+        }
     }
 
     @Transactional
@@ -102,9 +111,11 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public ResponseBookDtoV1 delete(Long id) {
-        Book book = bookRepository.findById(id).orElse(null);
+        Book book = bookRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id `%s` not found".formatted(id)));
         if (book != null) {
             bookRepository.delete(book);
+            kafkaBookProducer.sendBookDeletedMessage(book.getId());
         }
         return bookMapper.toDto(book);
     }
@@ -112,6 +123,13 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void deleteMany(List<Long> ids) {
-        bookRepository.deleteAllById(ids);
+        List<Book> existingBooks = bookRepository.findAllById(ids);
+        List<Long> existingBookIds = existingBooks.stream()
+                .map(Book::getId)
+                .toList();
+        bookRepository.deleteAll(existingBooks);
+        for (Long id : existingBookIds) {
+            kafkaBookProducer.sendBookDeletedMessage(id);
+        }
     }
 }
