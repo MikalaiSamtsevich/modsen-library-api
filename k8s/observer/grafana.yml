@@ -20,18 +20,18 @@ spec:
           volumeMounts:
             - name: grafana-datasources
               mountPath: /etc/grafana/provisioning/datasources/datasources.yml
-              subPath: datasources.yaml  # Указываем имя файла в ConfigMap
+              subPath: datasources.yaml
       volumes:
         - name: grafana-datasources
           configMap:
-            name: grafana-datasources  # Имя вашего ConfigMap
+            name: grafana-datasources
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: grafana
 spec:
-  type: NodePort  # Или ClusterIP в зависимости от ваших потребностей
+  type: LoadBalancer
   ports:
     - port: 3000
       targetPort: 3000
@@ -43,7 +43,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-datasources
-  namespace: default  # Убедитесь, что это правильный namespace
+  namespace: default
 data:
   datasources.yaml: |
     apiVersion: 1

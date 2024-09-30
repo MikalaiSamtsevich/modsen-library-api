@@ -28,7 +28,7 @@ kind: Service
 metadata:
   name: gateway-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8091
   selector:

@@ -36,6 +36,7 @@ kind: Service
 metadata:
   name: jaeger
 spec:
+  type: LoadBalancer
   ports:
     - port: 16686
       targetPort: 16686

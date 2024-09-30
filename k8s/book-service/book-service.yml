@@ -28,7 +28,7 @@ kind: Service
 metadata:
   name: book-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8063
   selector:

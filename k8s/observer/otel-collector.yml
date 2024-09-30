@@ -12,6 +12,7 @@ spec:
       labels:
         app: otel-collector
     spec:
+
       containers:
         - name: otel-collector
           image: otel/opentelemetry-collector-contrib:0.91.0
@@ -34,6 +35,7 @@ kind: Service
 metadata:
   name: otel-collector
 spec:
+  type: LoadBalancer
   ports:
     - name: otlp-grpc
       port: 4317

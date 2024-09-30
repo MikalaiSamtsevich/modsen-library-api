@@ -28,7 +28,7 @@ kind: Service
 metadata:
   name: keycloak-auth-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8092
   selector:
