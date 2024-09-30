@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-service-deployment
+  labels:
+    app: eureka-service
+spec:
+  selector:
+    matchLabels:
+      app: eureka-service
+  template:
+    metadata:
+      labels:
+        app: eureka-service
+    spec:
+      containers:
+        - name: eureka-service
+          image: nixn/eureka-service:latest
+          ports:
+            - containerPort: 8093
+          envFrom:
+            - configMapRef:
+                name: eureka-config
+      automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8093
+  selector:
+    app: eureka-service

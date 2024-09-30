@@ -1,0 +1,137 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  ports:
+    - name: http
+      port: 9082
+      targetPort: 9082
+    - name: health
+      port: 9000
+      targetPort: 9000
+  selector:
+    app: keycloak
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:25.0.6
+          args:
+            - "start-dev"
+            - "--import-realm"
+            - "--health-enabled=true"
+          env:
+            - name: KC_HTTP_PORT
+              value: "9082"
+            - name: KC_FEATURES
+              value: "token-exchange,admin-fine-grained-authz"
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+            - name: KC_PROXY
+              value: "edge"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL_HOST
+              value: "kc-postgres"
+            - name: KC_DB_URL_PORT
+              value: "5432"
+            - name: KC_DB_URL_DATABASE
+              value: "keycloak"
+            - name: KC_DB_USERNAME
+              value: "admin"
+            - name: KC_DB_PASSWORD
+              value: "root"
+          ports:
+            - name: http
+              containerPort: 9082
+            - name: health
+              containerPort: 9000
+          volumeMounts:
+            - mountPath: /opt/keycloak/data/import
+              name: config
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  exec 3<>/dev/tcp/localhost/9000 && echo -e "GET /health/ready HTTP/1.1\nhost: localhost:9000\n" >&3 && timeout --preserve-status 1 cat <&3 | grep -m 1 -q 'status.*UP'
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 20
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  exec 3<>/dev/tcp/localhost/9000 && echo -e "GET /health/ready HTTP/1.1\nhost: localhost:9000\n" >&3 && timeout --preserve-status 1 cat <&3 | grep -m 1 -q 'status.*UP'
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 20
+      volumes:
+        - name: config
+          configMap:
+            name: keycloak-realm
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: keycloak-init
+spec:
+  ttlSecondsAfterFinished: 120
+  template:
+    spec:
+      containers:
+        - name: keycloak-init
+          image: curlimages/curl:latest
+          command: [ "/bin/sh", "-c" ]
+          args:
+            - |
+              until curl -s -f http://keycloak:9000/health/ready; do
+                echo "Waiting for Keycloak to be ready..."
+                sleep 5
+              done;
+              echo "* Request for authorization";
+              RESULT=$(curl --location --request POST "http://keycloak:9082/realms/master/protocol/openid-connect/token" \
+              --header "Accept: */*" \
+              --header "Content-Type: application/x-www-form-urlencoded" \
+              --data-urlencode "client_id=admin-cli" \
+              --data-urlencode "grant_type=password" \
+              --data-urlencode "username=admin" \
+              --data-urlencode "password=admin");
+              
+              echo "Token: $RESULT";
+              
+              TOKEN=$(echo $RESULT | sed "s/.*access_token\":\"//g" | sed "s/\".*//g");
+              
+              echo "* User creation";
+              curl -v http://keycloak:9082/admin/realms/spring-boot/users -H "Content-Type: application/json" -H "Authorization: bearer $TOKEN" --data '{"email":"admin@gmail.com", "enabled":true, "username": "admin", "firstName":"admin","lastName":"admin", "credentials": [{"temporary": false, "type": "password", "value": "admin"}], "emailVerified":true, "groups": ["MANAGER"]}';
+              
+              curl -v http://keycloak:9082/admin/realms/spring-boot/users -H "Content-Type: application/json" -H "Authorization: bearer $TOKEN" --data '{"email":"user@gmail.com", "enabled":true, "username": "user", "firstName":"user","lastName":"user","credentials": [{"temporary": false, "type": "password", "value": "user"}], "emailVerified":true, "groups": ["CUSTOMER"]}';
+      restartPolicy: Never

@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-book-config
+data:
+  POSTGRES_USER: "admin"
+  POSTGRES_PASSWORD: "root"
+  POSTGRES_DB: "bookdb"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-book-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-book-service
+  template:
+    metadata:
+      labels:
+        app: postgres-book-service
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16.4
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-book-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-book-config
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-book-config
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-book-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-book-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres-book-service

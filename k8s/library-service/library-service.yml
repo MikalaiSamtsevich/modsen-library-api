@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: library-service-deployment
+  labels:
+    app: library-service
+spec:
+  selector:
+    matchLabels:
+      app: library-service
+  template:
+    metadata:
+      labels:
+        app: library-service
+    spec:
+      containers:
+        - name: library-service
+          image: nixn/library-service:latest
+          ports:
+            - containerPort: 8062
+          envFrom:
+            - configMapRef:
+                name: library-config
+      automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: library-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8062
+  selector:
+    app: library-service

@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+        - name: otel-collector
+          image: otel/opentelemetry-collector-contrib:0.91.0
+          #          command:
+          #            - "--config=/etc/otelcol-contrib/otel-collector.yml"
+          ports:
+            - containerPort: 4317 # OTLP gRPC receiver
+            - containerPort: 8889
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/otelcol-contrib
+      volumes:
+        - name: config-volume
+          configMap:
+            name: otel-collector-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+spec:
+  ports:
+    - name: otlp-grpc
+      port: 4317
+      targetPort: 4317
+      protocol: TCP
+    - name: prometheus
+      port: 8889
+      targetPort: 8889
+      protocol: TCP
+  selector:
+    app: otel-collector
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-config
+data:
+  config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+
+    processors:
+      batch:
+        send_batch_max_size: 5000
+        send_batch_size: 500
+        timeout: 10s
+
+    exporters:
+      prometheus:
+        endpoint: "0.0.0.0:8889"
+        enable_open_metrics: true
+
+      otlp/jaeger:
+        endpoint: "http://jaeger:4317"
+        tls:
+          insecure: true
+
+      zipkin:
+        endpoint: http://zipkin:9411/api/v2/spans
+        format: proto
+
+      loki:
+        endpoint: "http://loki:3100/loki/api/v1/push"
+
+    service:
+      pipelines:
+        metrics:
+          receivers: [ otlp ]
+          processors: [ batch ]
+          exporters: [ prometheus ]
+        traces:
+          receivers: [ otlp ]
+          processors: [ batch ]
+          exporters: [ otlp/jaeger,zipkin ]
+        logs:
+          receivers: [ otlp ]
+          processors: [ batch ]
+          exporters: [ loki ]

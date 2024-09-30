@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-service-deployment
+  labels:
+    app: book-service
+spec:
+  selector:
+    matchLabels:
+      app: book-service
+  template:
+    metadata:
+      labels:
+        app: book-service
+    spec:
+      containers:
+        - name: book-service
+          image: nixn/book-service:latest
+          ports:
+            - containerPort: 8063
+          envFrom:
+            - configMapRef:
+                name: book-config
+      automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8063
+  selector:
+    app: book-service
