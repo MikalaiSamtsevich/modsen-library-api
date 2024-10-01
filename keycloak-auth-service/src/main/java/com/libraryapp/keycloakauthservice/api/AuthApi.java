@@ -35,6 +35,5 @@ public class AuthApi {
         roleService.assignRole(KeycloakRole.USER, createdUser);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
 }
 

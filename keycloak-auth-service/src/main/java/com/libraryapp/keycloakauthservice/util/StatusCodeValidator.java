@@ -14,7 +14,7 @@ public class StatusCodeValidator {
 
     public static void validate(Response response) {
         if (!VALID_STATUSES.contains(response.getStatus())) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(response.getStatus()));
+            throw new ResponseStatusException(HttpStatusCode.valueOf(response.getStatus()),response.getStatusInfo().getReasonPhrase());
         }
     }
 }
