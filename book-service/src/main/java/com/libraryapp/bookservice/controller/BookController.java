@@ -13,10 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +25,6 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
-    private final KafkaTemplate<String, Long> kafkaTemplate;
-    private final ValidationAutoConfiguration validationAutoConfiguration;
 
     @GetMapping
     public Page<ResponseBookDtoV1> getList(@ParameterObject @ModelAttribute BookFilter filter, @ParameterObject Pageable pageable) {

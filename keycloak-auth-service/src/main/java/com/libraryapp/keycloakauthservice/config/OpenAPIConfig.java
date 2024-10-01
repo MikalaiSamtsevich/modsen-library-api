@@ -22,8 +22,11 @@ public class OpenAPIConfig {
                 .servers(List.of(new Server().url(url)))
                 .info(new Info()
                         .title(serviceTitle).version(serviceVersion)
-                        .description("Описание API с JWT аутентификацией"))
-                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication")) // Добавление схемы безопасности
+                        .description("Keycloak Authentication Service API for managing users, roles, and groups. " +
+                                "This service connects to Keycloak via the admin CLI to handle authentication, authorization, " +
+                                "and JWT token retrieval for secure API access. "
+                                + "No roles are required for user registration or login, while the ADMIN role is required for managing groups, roles, or users."))
+                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components()
                         .addSecuritySchemes("Bearer Authentication", // Имя схемы безопасности
                                 new SecurityScheme()

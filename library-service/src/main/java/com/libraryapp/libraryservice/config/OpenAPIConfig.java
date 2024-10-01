@@ -23,10 +23,12 @@ public class OpenAPIConfig {
                 .servers(List.of(new Server().url(url)))
                 .info(new Info()
                         .title(serviceTitle).version(serviceVersion)
-                        .description("Описание API с JWT аутентификацией"))
-                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication")) // Добавление схемы безопасности
+                        .description("Book Status Service API for managing the status of books in the library. " +
+                                "When a book is created or deleted in the Book Service, its id is sent to this service via Kafka for further processing. " +
+                                "To access GET requests, the USER role is required, while the ADMIN role is needed for creating or modifying book statuses."))
+                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components()
-                        .addSecuritySchemes("Bearer Authentication", // Имя схемы безопасности
+                        .addSecuritySchemes("Bearer Authentication",
                                 new SecurityScheme()
                                         .name("Authorization")
                                         .type(SecurityScheme.Type.HTTP)

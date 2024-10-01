@@ -1,6 +1,5 @@
 package com.libraryapp.libraryservice.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.libraryapp.libraryservice.model.BookStatus;
 import com.libraryapp.libraryservice.model.dto.ResponseBookStatusDtoV1;
 import com.libraryapp.libraryservice.model.dto.UpdateBookStatusDtoV1;
@@ -26,8 +25,6 @@ public class BookStatusServiceImpl implements BookStatusService {
     private final BookStatusMapper bookStatusMapper;
 
     private final BookStatusRepository bookStatusRepository;
-
-    private final ObjectMapper objectMapper;
 
     @Transactional(readOnly = true)
     @Override

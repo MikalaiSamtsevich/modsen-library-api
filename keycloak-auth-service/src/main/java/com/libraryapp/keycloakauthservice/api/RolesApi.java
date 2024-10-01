@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 @RestController
 @Slf4j
@@ -18,7 +17,6 @@ public class RolesApi {
 
     private final UserService userService;
     private final RoleService roleService;
-    OncePerRequestFilter oncePerRequestFilter;
 
     @PutMapping("/{user-id}")
     public ResponseEntity<?> assignRole(@PathVariable("user-id") String userId,
