@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "* Request for authorization"
-RESULT=$(curl --location --request POST 'http://keycloak:9082/realms/master/protocol/openid-connect/token' \
+RESULT=$(curl -X POST 'http://keycloak:9082/realms/master/protocol/openid-connect/token' \
 --header 'Accept: */*' \
 --header 'Host: keycloak:9082' \
 --header 'Connection: keep-alive' \
@@ -21,12 +21,12 @@ echo "* Display token"
 echo "$TOKEN"
 
 echo "* User creation"
-curl -v http://keycloak:9082/admin/realms/spring-boot/users \
--H "Content-Type: application/json" \
--H "Authorization: Bearer $TOKEN" \
+curl -X POST http://keycloak:9082/admin/realms/spring-boot/users \
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer $TOKEN" \
 --data '{"email":"admin@gmail.com", "enabled":true, "username": "admin", "firstName":"admin","lastName":"admin", "credentials": [{"temporary": false, "type": "password", "value": "admin"}], "emailVerified":true, "groups": ["MANAGER"]}'
 
-curl -v http://keycloak:9082/admin/realms/spring-boot/users \
--H "Content-Type: application/json" \
--H "Authorization: Bearer $TOKEN" \
+curl -X POST http://keycloak:9082/admin/realms/spring-boot/users \
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer $TOKEN" \
 --data '{"email":"user@gmail.com", "enabled":true, "username": "user", "firstName":"user","lastName":"user","credentials": [{"temporary": false, "type": "password", "value": "user"}], "emailVerified":true, "groups": ["CUSTOMER"]}'
