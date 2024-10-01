@@ -1,24 +1,12 @@
 package com.libraryapp.libraryservice.model.mapper;
 
 import com.libraryapp.libraryservice.model.BookStatus;
-import com.libraryapp.libraryservice.model.dto.BookStatusDto;
-import com.libraryapp.libraryservice.model.dto.BookStatusWithoutIdDto;
-import org.mapstruct.*;
+import com.libraryapp.libraryservice.model.dto.ResponseBookStatusDtoV1;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface BookStatusMapper {
-    BookStatus toEntity(BookStatusDto bookStatusDto);
-
-    BookStatusDto toDto(BookStatus bookStatus);
-
-    BookStatusWithoutIdDto toDtoWithoutId(BookStatus bookStatus);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    BookStatus partialUpdate(BookStatusDto bookStatusDto, @MappingTarget BookStatus bookStatus);
-
-    BookStatus updateWithNull(BookStatusDto bookStatusDto, @MappingTarget BookStatus bookStatus);
-
-    BookStatus updateWithNull(BookStatusWithoutIdDto bookStatusDto, @MappingTarget BookStatus bookStatus);
-
-    BookStatus toEntity(BookStatusWithoutIdDto bookStatusWithoutIdDto);
+    ResponseBookStatusDtoV1 toDto(BookStatus bookStatus);
 }

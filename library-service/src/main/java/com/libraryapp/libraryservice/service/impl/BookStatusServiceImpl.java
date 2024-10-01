@@ -1,10 +1,9 @@
 package com.libraryapp.libraryservice.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.libraryapp.libraryservice.model.BookStatus;
-import com.libraryapp.libraryservice.model.dto.BookStatusDto;
-import com.libraryapp.libraryservice.model.dto.BookStatusWithoutIdDto;
+import com.libraryapp.libraryservice.model.dto.ResponseBookStatusDtoV1;
+import com.libraryapp.libraryservice.model.dto.UpdateBookStatusDtoV1;
 import com.libraryapp.libraryservice.model.mapper.BookStatusMapper;
 import com.libraryapp.libraryservice.repository.BookStatusRepository;
 import com.libraryapp.libraryservice.service.BookStatusService;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -33,21 +31,21 @@ public class BookStatusServiceImpl implements BookStatusService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<BookStatusDto> getFreeBooks(Pageable pageable) {
+    public Page<ResponseBookStatusDtoV1> getFreeBooks(Pageable pageable) {
         Page<BookStatus> bookStatuses = bookStatusRepository.findAllFreeBooks(pageable);
         return bookStatuses.map(bookStatusMapper::toDto);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<BookStatusDto> getList(Pageable pageable) {
+    public Page<ResponseBookStatusDtoV1> getList(Pageable pageable) {
         Page<BookStatus> bookStatuses = bookStatusRepository.findAll(pageable);
         return bookStatuses.map(bookStatusMapper::toDto);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public BookStatusDto getOne(Long id) {
+    public ResponseBookStatusDtoV1 getOne(Long id) {
         Optional<BookStatus> bookStatusOptional = bookStatusRepository.findById(id);
         return bookStatusMapper.toDto(bookStatusOptional.orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
@@ -55,7 +53,7 @@ public class BookStatusServiceImpl implements BookStatusService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<BookStatusDto> getMany(List<Long> ids) {
+    public List<ResponseBookStatusDtoV1> getMany(List<Long> ids) {
         List<BookStatus> bookStatuses = bookStatusRepository.findAllById(ids);
         return bookStatuses.stream()
                 .map(bookStatusMapper::toDto)
@@ -64,13 +62,11 @@ public class BookStatusServiceImpl implements BookStatusService {
 
     @Transactional
     @Override
-    public BookStatusDto patch(Long id, JsonNode patchNode) throws IOException {
+    public ResponseBookStatusDtoV1 patch(Long id, UpdateBookStatusDtoV1 updateBookStatusDto) {
         BookStatus bookStatus = bookStatusRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Status with id `%s` not found".formatted(id)));
 
-        BookStatusWithoutIdDto bookStatusDto = bookStatusMapper.toDtoWithoutId(bookStatus);
-        objectMapper.readerForUpdating(bookStatusDto).readValue(patchNode);
-        bookStatusMapper.updateWithNull(bookStatusDto, bookStatus);
+        updateBookStatusFields(bookStatus, updateBookStatusDto);
 
         BookStatus resultBookStatus = bookStatusRepository.save(bookStatus);
         return bookStatusMapper.toDto(resultBookStatus);
@@ -78,19 +74,29 @@ public class BookStatusServiceImpl implements BookStatusService {
 
     @Transactional
     @Override
-    public List<Long> patchMany(List<Long> ids, JsonNode patchNode) throws IOException {
+    public List<Long> patchMany(List<Long> ids, UpdateBookStatusDtoV1 updateBookStatusDto) {
         Collection<BookStatus> bookStatuses = bookStatusRepository.findAllById(ids);
 
         for (BookStatus bookStatus : bookStatuses) {
-            BookStatusWithoutIdDto bookStatusDto = bookStatusMapper.toDtoWithoutId(bookStatus);
-            objectMapper.readerForUpdating(bookStatusDto).readValue(patchNode);
-            bookStatusMapper.updateWithNull(bookStatusDto, bookStatus);
+            updateBookStatusFields(bookStatus, updateBookStatusDto);
         }
 
         List<BookStatus> resultBookStatuses = bookStatusRepository.saveAll(bookStatuses);
         return resultBookStatuses.stream()
                 .map(BookStatus::getId)
                 .toList();
+    }
+
+    private void updateBookStatusFields(BookStatus bookStatus, UpdateBookStatusDtoV1 updateBookStatusDto) {
+        if (updateBookStatusDto.getBorrowedAt() != null) {
+            bookStatus.setBorrowedAt(updateBookStatusDto.getBorrowedAt());
+        }
+        if (updateBookStatusDto.getDueDate() != null) {
+            bookStatus.setDueDate(updateBookStatusDto.getDueDate());
+        }
+        if (updateBookStatusDto.getIsFree() != null) {
+            bookStatus.setIsFree(updateBookStatusDto.getIsFree());
+        }
     }
 
 }

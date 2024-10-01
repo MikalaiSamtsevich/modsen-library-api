@@ -1,24 +1,23 @@
 package com.libraryapp.libraryservice.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.libraryapp.libraryservice.model.dto.BookStatusDto;
+import com.libraryapp.libraryservice.model.dto.ResponseBookStatusDtoV1;
+import com.libraryapp.libraryservice.model.dto.UpdateBookStatusDtoV1;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface BookStatusService {
-    Page<BookStatusDto> getList(Pageable pageable);
+    Page<ResponseBookStatusDtoV1> getList(Pageable pageable);
 
-    BookStatusDto getOne(Long id);
+    ResponseBookStatusDtoV1 getOne(Long id);
 
-    List<BookStatusDto> getMany(List<Long> ids);
+    List<ResponseBookStatusDtoV1> getMany(List<Long> ids);
 
 
-    BookStatusDto patch(Long id, JsonNode patchNode) throws IOException;
+    ResponseBookStatusDtoV1 patch(Long id, UpdateBookStatusDtoV1 updateBookStatusDtoV1);
 
-    List<Long> patchMany(List<Long> ids, JsonNode patchNode) throws IOException;
+    List<Long> patchMany(List<Long> ids, UpdateBookStatusDtoV1 updateBookStatusDtoV1);
 
-    Page<BookStatusDto> getFreeBooks(Pageable pageable);
+    Page<ResponseBookStatusDtoV1> getFreeBooks(Pageable pageable);
 }

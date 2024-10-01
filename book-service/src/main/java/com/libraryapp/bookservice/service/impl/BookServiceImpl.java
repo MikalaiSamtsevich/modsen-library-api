@@ -1,12 +1,11 @@
 package com.libraryapp.bookservice.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.libraryapp.bookservice.exception.BookAlreadyExistsException;
 import com.libraryapp.bookservice.kafka.producer.KafkaBookProducer;
 import com.libraryapp.bookservice.model.Book;
 import com.libraryapp.bookservice.model.dto.RequestBookDtoV1;
 import com.libraryapp.bookservice.model.dto.ResponseBookDtoV1;
+import com.libraryapp.bookservice.model.dto.UpdateBookDtoV1;
 import com.libraryapp.bookservice.model.filter.BookFilter;
 import com.libraryapp.bookservice.model.mapper.BookMapper;
 import com.libraryapp.bookservice.repository.AuthorRepository;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +32,6 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
-    private final ObjectMapper objectMapper;
     private final KafkaBookProducer kafkaBookProducer;
 
     @Transactional(readOnly = true)
@@ -79,13 +76,11 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public ResponseBookDtoV1 patch(Long id, JsonNode patchNode) throws IOException {
+    public ResponseBookDtoV1 patch(Long id, UpdateBookDtoV1 updateBookDto) {
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id `%s` not found".formatted(id)));
 
-        RequestBookDtoV1 requestBookDtoV1 = bookMapper.toDtoWithoutId(book);
-        objectMapper.readerForUpdating(requestBookDtoV1).readValue(patchNode);
-        bookMapper.partialUpdate(requestBookDtoV1, book);
+        updateBookFields(book, updateBookDto);
 
         Book resultBook = bookRepository.save(book);
         return bookMapper.toDto(resultBook);
@@ -93,19 +88,34 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public List<Long> patchMany(List<Long> ids, JsonNode patchNode) throws IOException {
+    public List<Long> patchMany(List<Long> ids, UpdateBookDtoV1 updateBookDto) {
         Collection<Book> books = bookRepository.findAllById(ids);
 
         for (Book book : books) {
-            RequestBookDtoV1 requestBookDtoV1 = bookMapper.toDtoWithoutId(book);
-            objectMapper.readerForUpdating(requestBookDtoV1).readValue(patchNode);
-            bookMapper.partialUpdate(requestBookDtoV1, book);
+            updateBookFields(book, updateBookDto);
         }
 
         List<Book> resultBooks = bookRepository.saveAll(books);
         return resultBooks.stream()
                 .map(Book::getId)
                 .toList();
+    }
+
+    private void updateBookFields(Book book, UpdateBookDtoV1 updateBookDto) {
+        if (updateBookDto.getTitle() != null) {
+            book.setTitle(updateBookDto.getTitle());
+        }
+        if (updateBookDto.getDescription() != null) {
+            book.setDescription(updateBookDto.getDescription());
+        }
+        if (updateBookDto.getAuthorId() != null) {
+            book.setAuthor(authorRepository.findById(updateBookDto.getAuthorId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "Author with id `%s` not found".formatted(updateBookDto.getAuthorId()))));
+        }
+        if (updateBookDto.getGenre() != null) {
+            book.setGenre(updateBookDto.getGenre());
+        }
     }
 
     @Transactional
