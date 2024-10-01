@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "* Request for authorization"
 RESULT=$(curl -X POST 'http://keycloak:9082/realms/master/protocol/openid-connect/token' \
