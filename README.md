@@ -56,7 +56,7 @@ Launch the necessary infrastructure services (e.g., Kafka, Keycloak) using Docke
 
 ```bash
 cd docker
-docker-compose -f compose-tools.yml up
+docker-compose -f compose-tools.yaml up
 ```
 
 #### Start Configuration Services:
@@ -101,8 +101,8 @@ For running the application using Docker, the services are fully containerized a
 
 ```bash
 cd docker
-docker-compose -f compose-app.yml build
-docker-compose -f compose-app.yml up
+docker-compose -f compose-app.yaml build
+docker-compose -f compose-app.yaml up
 ```
 
 This will launch all microservices, tools (Kafka, Keycloak), and dependencies in Docker containers.
