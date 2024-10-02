@@ -1,7 +1,7 @@
 FROM gradle:jdk21-alpine AS builder
 WORKDIR /application
 COPY . .
-RUN gradle clean build -x test
+RUN --mount=type=cache,target=/root/.gradle gradle clean build -x test
 
 FROM bellsoft/liberica-openjre-alpine:21 AS layers
 WORKDIR /application
