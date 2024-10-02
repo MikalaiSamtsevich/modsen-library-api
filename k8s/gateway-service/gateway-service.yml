@@ -13,6 +13,10 @@ spec:
       labels:
         app: gateway-service
     spec:
+      initContainers:
+        - name: wait-for-eureka
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z eureka-service 8093; do echo waiting for eureka; sleep 2; done;' ]
       containers:
         - name: gateway-service
           image: nixn/gateway-service:latest

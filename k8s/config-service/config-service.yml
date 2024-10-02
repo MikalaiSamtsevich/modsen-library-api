@@ -13,6 +13,10 @@ spec:
       labels:
         app: config-service
     spec:
+      initContainers:
+        - name: wait-for-eureka
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z otel-collector 4317; do echo waiting for eureka; sleep 2; done;' ]
       containers:
         - name: config-service
           image: nixn/config-service:latest

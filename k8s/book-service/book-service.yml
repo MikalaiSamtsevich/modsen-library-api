@@ -13,6 +13,16 @@ spec:
       labels:
         app: book-service
     spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z postgres-library-service 5432; do echo waiting for postgres; sleep 2; done;' ]
+        - name: wait-for-eureka
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z eureka-service 8093; do echo waiting for eureka; sleep 2; done;' ]
+        - name: wait-for-kafka
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z kafka-cluster-kafka-bootstrap 9092; do echo waiting for kafka; sleep 2; done;' ]
       containers:
         - name: book-service
           image: nixn/book-service:latest

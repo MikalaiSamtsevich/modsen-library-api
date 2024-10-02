@@ -13,6 +13,10 @@ spec:
       labels:
         app: eureka-service
     spec:
+      initContainers:
+        - name: wait-for-eureka
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z config-service 8099; do echo waiting for eureka; sleep 2; done;' ]
       containers:
         - name: eureka-service
           image: nixn/eureka-service:latest

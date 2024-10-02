@@ -13,6 +13,13 @@ spec:
       labels:
         app: keycloak-auth-service
     spec:
+      initContainers:
+        - name: wait-for-eureka
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z eureka-service 8093; do echo waiting for eureka; sleep 2; done;' ]
+        - name: wait-for-keycloak
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z keycloak 9082; do echo waiting for keycloak; sleep 2; done;' ]
       containers:
         - name: keycloak-auth-service
           image: nixn/keycloak-auth-service:latest
