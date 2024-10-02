@@ -116,7 +116,7 @@ This will launch all microservices, tools (Kafka, Keycloak), and dependencies in
 Ensure Minikube is running with **at least 4 CPUs**, as lower configurations can cause issues during deployment.
 
 ```bash
-minikube start --cpus=4
+minikube start --cpus=4 --memory=6000
 ```
 
 #### Install Helm:
