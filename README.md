@@ -1,6 +1,3 @@
-
----
-
 # Modsen Library API - Microservices Architecture with Spring Boot
 
 ## Overview
@@ -9,11 +6,11 @@ The **Modsen Library API** is a microservice-based system designed for managing 
 
 ### Key Features:
 
-1. **User Authentication**: Handled via **Keycloak**, supporting both `USER` and `ADMIN` roles.
-2. **Book Management**: The **Book-service** enables book creation, deletion, and modification, and communicates with the **Library-service** via **Kafka** for real-time synchronization of book status.
-3. **Library-service**: Tracks book availability and handles Kafka messages regarding book updates.
-4. **Centralized Gateway**: **Gateway-service** provides a unified entry point for all API interactions, routing through to various microservices.
-5. **Monitoring and Tracing**: Integrated with **Grafana Stack** for complete observability of logs, metrics, and distributed traces.
+- **User Authentication**: Handled via **Keycloak**, supporting both `USER` and `ADMIN` roles.
+- **Book Management**: The **Book-service** enables book creation, deletion, and modification, and communicates with the **Library-service** via **Kafka** for real-time synchronization of book status.
+- **Library-service**: Tracks book availability and handles Kafka messages regarding book updates.
+- **Centralized Gateway**: **Gateway-service** provides a unified entry point for all API interactions, routing through to various microservices.
+- **Monitoring and Tracing**: Integrated with **Grafana Stack** for complete observability of logs, metrics, and distributed traces.
 
 ---
 
@@ -49,32 +46,52 @@ git clone https://github.com/MikalaiSamtsevich/modsen-library-api.git
 cd modsen-library-api
 ```
 
+---
+
 ### Local Setup
 
-1. **Start required tools**:
-   Launch the necessary infrastructure services (e.g., Kafka, Keycloak) using Docker Compose:
-   ```bash
-   cd docker
-   docker-compose -f compose-tools.yml up
-   ```
+#### Start required tools:
 
-2. **Start Configuration Services**:
-    - Launch `config-service` first.
-    - Start `eureka-service` next to register all microservices.
+Launch the necessary infrastructure services (e.g., Kafka, Keycloak) using Docker Compose:
 
-3. **Start the Microservices**:
-   After `config-service` and `eureka-service` are up, start all other services (e.g., `book-service`, `library-service`, `gateway-service`).
+```bash
+cd docker
+docker-compose -f compose-tools.yml up
+```
 
-4. **Access the Swagger Documentation**:
-    - You can view the API documentation for all services via the **Gateway-service** at `http://localhost:8091/webjars/swagger-ui/index.html`.
-    - Each microservice has its own Swagger documentation accessible through individual URLs.
+#### Start Configuration Services:
 
-5. **User Authentication**:
-    - Register or log in through `keycloak-auth-service`. New users get assigned the `USER` role by default. For `ADMIN` privileges, you need to update the role directly via the Keycloak interface.
-    - Pre-configured users:
-        - **user/user** (`USER` role).
-        - **admin/admin** (`ADMIN` & `USER` roles).
-    - Upon successful login, you will receive an access token. Use this token for authenticated requests to other services.
+1. Launch `config-service` first.
+2. Start `eureka-service` next to register all microservices.
+
+#### Start the Microservices:
+
+After `config-service` and `eureka-service` are up, start all other services (e.g., `book-service`, `library-service`, `gateway-service`) via **Gradle**:
+
+```bash
+./gradlew bootRun
+```
+
+#### Access the Swagger Documentation:
+
+You can view the API documentation for all services via the **Gateway-service** at `http://localhost:8091/webjars/swagger-ui/index.html`.  
+Each microservice has its own Swagger documentation accessible through individual URLs.
+
+---
+
+### User Authentication
+
+1. Register or log in through **keycloak-auth-service**.
+    - New users get assigned the `USER` role by default.
+    - For `ADMIN` privileges, you need to update the role directly via the Keycloak interface.
+
+2. **Pre-configured users**:
+    - **user/user** (`USER` role).
+    - **admin/admin** (`ADMIN` & `USER` roles).
+
+3. **JWT Token**: Upon successful login, you will receive an `access_token`.
+    - Use this token for authenticated requests to other services.
+    - To test book creation or deletion, first log in with **admin/admin**, then copy the `access_token` and use it in the `Authorization` header for subsequent API requests.
 
 ---
 
@@ -94,38 +111,68 @@ This will launch all microservices, tools (Kafka, Keycloak), and dependencies in
 
 ### Running in Kubernetes with Minikube
 
-1. **Start Minikube**:
-   ```bash
-   minikube start --cpus=4
-   ```
+#### Start Minikube:
 
-2. **Install Helm**:
-   Install **Helm** to manage Kubernetes deployments https://helm.sh/docs/intro/install/
+Ensure Minikube is running with **at least 4 CPUs**, as lower configurations can cause issues during deployment.
 
-3. **Install Strimzi Kafka Operator**:
-   Strimzi simplifies Kafka deployment and management in Kubernetes. Install it as follows:
-   ```bash
-   helm repo add strimzi https://strimzi.io/charts
-   helm repo update
-   helm install strimzi strimzi/strimzi-kafka-operator
-   ```
+```bash
+minikube start --cpus=4
+```
 
-4. **Deploy Microservices**:
-   Go to the root.
-   Deploy all services in Kubernetes by applying the manifests:
-   ```bash
-   kubectl apply -R -f k8s
-   ```
+#### Install Helm:
 
-5. **Access Minikube Tunnel**:
-   Once all services are up (this may take a few minutes), run Minikube Tunnel to access Swagger, Grafana, and Keycloak:
-   ```bash
-   minikube tunnel
-   ```
+Install **Helm** to manage Kubernetes deployments. Instructions can be found at [Helm Installation](https://helm.sh/docs/intro/install/).
+
+#### Install Strimzi Kafka Operator:
+
+Strimzi simplifies Kafka deployment and management in Kubernetes.
+
+```bash
+helm repo add strimzi https://strimzi.io/charts
+helm repo update
+helm install strimzi strimzi/strimzi-kafka-operator
+```
+(Recommended) Wait for strimzi-kafka-operator ready
+
+#### Deploy Microservices:
+
+Go to the project root directory and deploy all services in Kubernetes by applying the manifests:
+
+```bash
+kubectl apply -R -f k8s
+```
+
+#### Access Minikube Tunnel:
+
+Once all services are up (this may take a few minutes), run **Minikube Tunnel** to access Swagger, Grafana, and Keycloak:
+
+```bash
+minikube tunnel
+```
 
 ---
 
-## Monitoring & Tracing Endpoints
+### Accessing Services through Gateway
+
+All service requests can be routed through the **Gateway-service** using the base URL: `http://localhost:9091/{service-name}/{service-endpoint}`. The gateway acts as a unified entry point, simplifying the communication with individual services. Below are examples of how to access each service through the gateway.
+
+Examples:
+
+- **Keycloak Auth Service:**
+  ```
+  http://localhost:9091/keycloak-auth-service/auth/login
+  ```
+- **Book Service:**
+  ```
+  http://localhost:9091/book-service/books
+  ```
+
+- **Library Service:**
+  ```
+  http://localhost:9091/library-service/books/status
+  ```
+
+### Monitoring & Tracing Endpoints
 
 The application is integrated with **Grafana Stack** for complete observability. Here are the key monitoring and tracing endpoints:
 
@@ -134,13 +181,12 @@ The application is integrated with **Grafana Stack** for complete observability.
 - **Loki**: Centralized logging, viewable in the Grafana dashboard.
 - **Tempo**: Tracks request tracing across services.
 - **Jaeger** and **Zipkin**: For distributed tracing.
-    - Jaeger: `http://localhost:16686`
-    - Zipkin: `http://localhost:9411`
+    - **Jaeger**: `http://localhost:16686`
+    - **Zipkin**: `http://localhost:9411`
 - **OpenTelemetry Collector**: Aggregates telemetry data from all services and forwards it to the observability tools.
 
----
+### Keycloak Endpoint
 
-## Keycloak Endpoint
 - **Keycloak Administration UI**: Accessible at `http://localhost:9082` (Login: `admin/admin`).
 
 ---
