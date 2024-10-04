@@ -266,7 +266,7 @@ To test the microservices, you can easily import the Postman collection included
         - **password:** `admin`
     - The `admin` user has the role **ADMIN**, which provides access to the entire application.
 
-   Alternatively, there is a user with the username `user` and password `user`, who has a **USER** role. This user can also create their own account through the `POST /auth/register` endpoint in the same microservice.
+   Alternatively, there is a user with the username `user` and password `user`, who has a **USER** role. You can also create your own account through the `POST /auth/register` endpoint in the same microservice.
 
 3. **Getting the Access Token:**
     - After logging in, you will receive an `access_token`.
