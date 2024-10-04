@@ -1,0 +1,61 @@
+spring:
+  config:
+    activate:
+      on-profile: integration-test
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:public-key.pem
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    drop-first: true
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: validate
+  kafka:
+    consumer:
+      group-id: library_group
+      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+eureka:
+  client:
+    enabled: false
+springdoc:
+  api-docs:
+    path: /library-service-docs/v3/api-docs
+  swagger-ui:
+    path: /library-service-docs/swagger-ui.html
+openapi:
+  service:
+    title: Library Service Docs
+    version: 1.0.0
+    url: http://localhost:8062
+management:
+  tracing:
+    enabled: false
+  otlp:
+    metrics:
+      export:
+        enabled: false
+  endpoint:
+    loggers:
+      enabled: false
+otel:
+  logs:
+    exporter: none
+  metrics:
+    exporter: none
+  traces:
+    exporter: none
+keycloak:
+  integration-test:
+    user-jwt: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCdXI4LUdHcHRiVVlqUXNpUmJnbDY4YTM4UXQ3UVFRUWszQ3Z1ZThXU240In0.eyJleHAiOjE3MjgwNzkzMzQsImlhdCI6MTcyODA0MzMzNCwianRpIjoiNTVjOWFkNzItYzMwOS00NmZlLTg3YzEtMTg5MmJhODUyNjRjIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDgyL3JlYWxtcy9zcHJpbmctYm9vdCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI0ZDI1YzFhNC0zYWYzLTQ2OTAtOTlmNy0zYjNhZDYyNTQyYWMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzcHJpbmctYm9vdC1hcHAiLCJzaWQiOiJiZGVlMDJlNC1lYTRiLTRmOGMtYWU2OC1kMDA3ZDJhMGMwNzgiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiIsImRlZmF1bHQtcm9sZXMtc3ByaW5nLWJvb3QiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6InVzZXIgdXNlciIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIiLCJnaXZlbl9uYW1lIjoidXNlciIsImZhbWlseV9uYW1lIjoidXNlciIsImVtYWlsIjoidXNlckBnbWFpbC5jb20ifQ.AIA87ou_RIsEdweJL9--jmTnAo7V7UtxmsBE-FOkr_tHHrLiH1YKLyAQ8kR0WW2TBl_-IGlYr0wdwsEA4wMomP2umHfCUsLvb31OpcUklgKl_ElSxBpoVxId9-wEFTVeQISesKHhhxgterUa8pbX-uL9fXNlg6wlVid3Iik-OPv1HKEbItkdv9CxUWHykjdZkmgZ0P4z-Uv-6GOds28fALV5haMf8PANukNg5EGCn1uOBjsPklIj6_2KsOznpuuTVg6O7DAG7Hn3sHkr2X-mdjaNmrJS439Y_iW5FJVn65Qt5t49G8RrOwOhqvjynNT7DQCi0eLhR1LL6u-UISWWNw
+    admin-jwt: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJCdXI4LUdHcHRiVVlqUXNpUmJnbDY4YTM4UXQ3UVFRUWszQ3Z1ZThXU240In0.eyJleHAiOjE3MjgwNzkzNjEsImlhdCI6MTcyODA0MzM2MSwianRpIjoiZmVhMmY4ZDEtZmM0Zi00MGI2LTg4NzMtNjg5ZDdiYWUzYzU5IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDgyL3JlYWxtcy9zcHJpbmctYm9vdCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJmYmYxYTk2OS0xODkzLTQ2YTYtYTk3Mi1mZGZlMGQ5NWFkNzgiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJzcHJpbmctYm9vdC1hcHAiLCJzaWQiOiIwMjlhZjczNC0zMjU1LTRlNjMtYjVlMi05N2U3N2Q4ZmQ3OGMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsIkFETUlOIiwidW1hX2F1dGhvcml6YXRpb24iLCJVU0VSIiwiZGVmYXVsdC1yb2xlcy1zcHJpbmctYm9vdCJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiYWRtaW4gYWRtaW4iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiIsImdpdmVuX25hbWUiOiJhZG1pbiIsImZhbWlseV9uYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9.HRx3SE3KgUzThgiwZ-4dacLfJnDfOSEEAnDM_Rwp_-e2G2s5fnsgZeh6jo22ByglzMzV-k_fPvfSvC2h1CuWg5q7jOCpTBT6MTJuiL9hb9K1MsuVrJJPf4-GPEwACSkmE7bTjfO2ewcBXNr5UUg3hG4YYFn35U03aC6y09NZd-K2WNxbTz0gJPd-3vdQZv0zabLkrEVdYWKUc25OaCQCbQImA53rOMD8RKHNj5I3jmuAiyXTGSRHVnnAXPs6EUZA3YFjdiyex5kxyWUbzODyYelCZhE7L27WoBnZA-gG-VIqgquI3Fv69SekqMg0GvBbfn3A-QRDiyskV2n5yE2rOw
+app:
+  weeks-until-due: 4

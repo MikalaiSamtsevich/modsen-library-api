@@ -2,11 +2,13 @@ package com.libraryapp.libraryservice.model.dto;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
 
 @Value
+@Builder
 public class UpdateBookStatusDtoV1 {
 
     @PastOrPresent(message = "Borrowed date cannot be in the future")

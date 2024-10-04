@@ -3,6 +3,7 @@ package com.libraryapp.libraryservice.repository;
 import com.libraryapp.libraryservice.model.BookStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -20,8 +21,9 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 
+@Tag("unit")
 @DataJpaTest
-@ActiveProfiles("test")
+@ActiveProfiles("unit-test")
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookStatusRepositoryTest {

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
  * DTO for {@link com.libraryapp.libraryservice.model.BookStatus}
  */
 @Value
+@Builder
 public class ResponseBookStatusDtoV1 {
 
     @NotNull(message = "ID must not be null")

@@ -1,6 +1,9 @@
 server:
   port: 8062
 spring:
+  config:
+    activate:
+      on-profile: unit-test
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-test.xml
     drop-first: true
