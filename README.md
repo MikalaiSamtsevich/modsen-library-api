@@ -72,10 +72,13 @@ After `config-service` and `eureka-service` are up, start all other services (e.
 ./gradlew bootRun
 ```
 
-#### Access the Swagger Documentation:
+### Access the Swagger Documentation:
 
-You can view the API documentation for all services via the **Gateway-service** at `http://localhost:8091/webjars/swagger-ui/index.html`.  
-Each microservice has its own Swagger documentation accessible through individual URLs.
+You can view the API documentation for all services via the **Gateway-service** at http://localhost:8091/webjars/swagger-ui/index.html`. 
+Each microservice has its own Swagger documentation accessible through individual URLs:
+- Book Service: http://localhost:8063/book-service-docs/swagger-ui/index.html#/book-controller/getList
+- Library Service: http://localhost:8062/library-service-docs/swagger-ui/index.html#/book-controller/getList
+- Keycloak Auth Service: http://localhost:8092/keycloak-auth-service-docs/swagger-ui/index.html#/book-controller/getList
 
 ---
 
@@ -190,6 +193,56 @@ The application is integrated with **Grafana Stack** for complete observability.
 - **Keycloak Administration UI**: Accessible at `http://localhost:9082` (Login: `admin/admin`).
 
 ---
+
+## Running Tests
+
+You can run tests for each service using the following commands:
+
+### Book Service
+
+1. Navigate to the `book-service` directory:
+   ```bash
+   cd book-service
+   ```
+
+2. To run integration tests:
+   ```bash
+   ./gradlew integrationTest
+   ```
+
+3. To run unit tests:
+   ```bash
+   ./gradlew unitTest
+   ```
+
+### Library Service
+
+1. Navigate to the `library-service` directory:
+   ```bash
+   cd library-service
+   ```
+
+2. To run integration tests:
+   ```bash
+   ./gradlew integrationTest
+   ```
+
+3. To run unit tests:
+   ```bash
+   ./gradlew unitTest
+   ```
+
+### Test Reports
+
+After running the following command to build the services, you can find the test reports in the `build` directory:
+
+```bash
+./gradlew build
+```
+
+The test reports are located at `customJacocoReportDir/index.html`. You can open this file in a web browser to view the detailed coverage report.
+
+--- 
 
 ## Conclusion
 
