@@ -1,0 +1,635 @@
+{
+	"info": {
+		"_postman_id": "d4aa3863-34a8-41fe-81e1-880137532035",
+		"name": "Library Service Docs",
+		"description": "Book Status Service API for managing the status of books in the library. When a book is created or deleted in the Book Service, its id is sent to this service via Kafka for further processing. To access GET requests, the USER role is required, while the ADMIN role is needed for creating or modifying book statuses.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33345950"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "books",
+					"item": [
+						{
+							"name": "status",
+							"item": [
+								{
+									"name": "{id}",
+									"item": [
+										{
+											"name": "get One",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/status/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														"status",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "1",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															},
+															{
+																"key": "Authorization",
+																"value": "Bearer <token>",
+																"description": "Added as a part of security scheme: bearer"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/books/status/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"books",
+																"status",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"bookId\": \"<long>\",\n  \"borrowedAt\": \"<dateTime>\",\n  \"dueDate\": \"<dateTime>\",\n  \"id\": \"<long>\",\n  \"isFree\": \"<boolean>\"\n}"
+												}
+											]
+										},
+										{
+											"name": "patch",
+											"request": {
+												"method": "PATCH",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"borrowedAt\": \"2024-10-04T19:55:21.364Z\", // cannot be in the future\n  \"dueDate\": \"2025-11-04T19:55:21.364Z\", // date must be in the future\n  \"isFree\": true\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/status/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														"status",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "1",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "PATCH",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "*/*"
+															},
+															{
+																"key": "Authorization",
+																"value": "Bearer <token>",
+																"description": "Added as a part of security scheme: bearer"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"borrowedAt\": \"<dateTime>\",\n  \"dueDate\": \"<dateTime>\",\n  \"isFree\": \"<boolean>\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/v1/books/status/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"books",
+																"status",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"bookId\": \"<long>\",\n  \"borrowedAt\": \"<dateTime>\",\n  \"dueDate\": \"<dateTime>\",\n  \"id\": \"<long>\",\n  \"isFree\": \"<boolean>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "free",
+									"item": [
+										{
+											"name": "get Free Books",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/status/free?page=0&size=20&sort=id,asc",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														"status",
+														"free"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "0",
+															"description": "Zero-based page index (0..N)"
+														},
+														{
+															"key": "size",
+															"value": "20",
+															"description": "The size of the page to be returned"
+														},
+														{
+															"key": "sort",
+															"value": "id,asc",
+															"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															},
+															{
+																"key": "Authorization",
+																"value": "Bearer <token>",
+																"description": "Added as a part of security scheme: bearer"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/books/status/free?page=0&size=20&sort=<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"books",
+																"status",
+																"free"
+															],
+															"query": [
+																{
+																	"key": "page",
+																	"value": "0",
+																	"description": "Zero-based page index (0..N)"
+																},
+																{
+																	"key": "size",
+																	"value": "20",
+																	"description": "The size of the page to be returned"
+																},
+																{
+																	"key": "sort",
+																	"value": "<string>",
+																	"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"first\": \"<boolean>\",\n  \"last\": \"<boolean>\",\n  \"size\": \"<integer>\",\n  \"content\": [\n    {\n      \"bookId\": \"<long>\",\n      \"borrowedAt\": \"<dateTime>\",\n      \"dueDate\": \"<dateTime>\",\n      \"id\": \"<long>\",\n      \"isFree\": \"<boolean>\"\n    },\n    {\n      \"bookId\": \"<long>\",\n      \"borrowedAt\": \"<dateTime>\",\n      \"dueDate\": \"<dateTime>\",\n      \"id\": \"<long>\",\n      \"isFree\": \"<boolean>\"\n    }\n  ],\n  \"number\": \"<integer>\",\n  \"sort\": [\n    {\n      \"direction\": \"<string>\",\n      \"nullHandling\": \"<string>\",\n      \"ascending\": \"<boolean>\",\n      \"property\": \"<string>\",\n      \"ignoreCase\": \"<boolean>\"\n    },\n    {\n      \"direction\": \"<string>\",\n      \"nullHandling\": \"<string>\",\n      \"ascending\": \"<boolean>\",\n      \"property\": \"<string>\",\n      \"ignoreCase\": \"<boolean>\"\n    }\n  ],\n  \"numberOfElements\": \"<integer>\",\n  \"pageable\": {\n    \"offset\": \"<long>\",\n    \"sort\": [\n      {\n        \"direction\": \"<string>\",\n        \"nullHandling\": \"<string>\",\n        \"ascending\": \"<boolean>\",\n        \"property\": \"<string>\",\n        \"ignoreCase\": \"<boolean>\"\n      },\n      {\n        \"direction\": \"<string>\",\n        \"nullHandling\": \"<string>\",\n        \"ascending\": \"<boolean>\",\n        \"property\": \"<string>\",\n        \"ignoreCase\": \"<boolean>\"\n      }\n    ],\n    \"paged\": \"<boolean>\",\n    \"pageNumber\": \"<integer>\",\n    \"pageSize\": \"<integer>\",\n    \"unpaged\": \"<boolean>\"\n  },\n  \"empty\": \"<boolean>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "by-ids",
+									"item": [
+										{
+											"name": "get Many",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/status/by-ids?ids=1&ids=2",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														"status",
+														"by-ids"
+													],
+													"query": [
+														{
+															"key": "ids",
+															"value": "1",
+															"description": "(Required) "
+														},
+														{
+															"key": "ids",
+															"value": "2",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "*/*"
+															},
+															{
+																"key": "Authorization",
+																"value": "Bearer <token>",
+																"description": "Added as a part of security scheme: bearer"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/v1/books/status/by-ids?ids=<long>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"v1",
+																"books",
+																"status",
+																"by-ids"
+															],
+															"query": [
+																{
+																	"key": "ids",
+																	"value": "<long>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "*/*"
+														}
+													],
+													"cookie": [],
+													"body": "[\n  {\n    \"bookId\": \"<long>\",\n    \"borrowedAt\": \"<dateTime>\",\n    \"dueDate\": \"<dateTime>\",\n    \"id\": \"<long>\",\n    \"isFree\": \"<boolean>\"\n  },\n  {\n    \"bookId\": \"<long>\",\n    \"borrowedAt\": \"<dateTime>\",\n    \"dueDate\": \"<dateTime>\",\n    \"id\": \"<long>\",\n    \"isFree\": \"<boolean>\"\n  }\n]"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "get List",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/books/status?page=0&size=20&sort=id,asc",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books",
+												"status"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "0",
+													"description": "Zero-based page index (0..N)"
+												},
+												{
+													"key": "size",
+													"value": "20",
+													"description": "The size of the page to be returned"
+												},
+												{
+													"key": "sort",
+													"value": "id,asc",
+													"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/status?page=0&size=20&sort=<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														"status"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "0",
+															"description": "Zero-based page index (0..N)"
+														},
+														{
+															"key": "size",
+															"value": "20",
+															"description": "The size of the page to be returned"
+														},
+														{
+															"key": "sort",
+															"value": "<string>",
+															"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"first\": \"<boolean>\",\n  \"last\": \"<boolean>\",\n  \"size\": \"<integer>\",\n  \"content\": [\n    {\n      \"bookId\": \"<long>\",\n      \"borrowedAt\": \"<dateTime>\",\n      \"dueDate\": \"<dateTime>\",\n      \"id\": \"<long>\",\n      \"isFree\": \"<boolean>\"\n    },\n    {\n      \"bookId\": \"<long>\",\n      \"borrowedAt\": \"<dateTime>\",\n      \"dueDate\": \"<dateTime>\",\n      \"id\": \"<long>\",\n      \"isFree\": \"<boolean>\"\n    }\n  ],\n  \"number\": \"<integer>\",\n  \"sort\": [\n    {\n      \"direction\": \"<string>\",\n      \"nullHandling\": \"<string>\",\n      \"ascending\": \"<boolean>\",\n      \"property\": \"<string>\",\n      \"ignoreCase\": \"<boolean>\"\n    },\n    {\n      \"direction\": \"<string>\",\n      \"nullHandling\": \"<string>\",\n      \"ascending\": \"<boolean>\",\n      \"property\": \"<string>\",\n      \"ignoreCase\": \"<boolean>\"\n    }\n  ],\n  \"numberOfElements\": \"<integer>\",\n  \"pageable\": {\n    \"offset\": \"<long>\",\n    \"sort\": [\n      {\n        \"direction\": \"<string>\",\n        \"nullHandling\": \"<string>\",\n        \"ascending\": \"<boolean>\",\n        \"property\": \"<string>\",\n        \"ignoreCase\": \"<boolean>\"\n      },\n      {\n        \"direction\": \"<string>\",\n        \"nullHandling\": \"<string>\",\n        \"ascending\": \"<boolean>\",\n        \"property\": \"<string>\",\n        \"ignoreCase\": \"<boolean>\"\n      }\n    ],\n    \"paged\": \"<boolean>\",\n    \"pageNumber\": \"<integer>\",\n    \"pageSize\": \"<integer>\",\n    \"unpaged\": \"<boolean>\"\n  },\n  \"empty\": \"<boolean>\"\n}"
+										}
+									]
+								},
+								{
+									"name": "patch Many",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"borrowedAt\": \"2024-10-04T19:55:21.364Z\", // cannot be in the future\n  \"dueDate\": \"2025-11-04T19:55:21.364Z\", // date must be in the future\n  \"isFree\": true\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/books/status?ids=1&ids=2",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books",
+												"status"
+											],
+											"query": [
+												{
+													"key": "ids",
+													"value": "1",
+													"description": "(Required) "
+												},
+												{
+													"key": "ids",
+													"value": "2",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Book statuses successfully updated. Returns a list of IDs of the updated book statuses.",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"borrowedAt\": \"<dateTime>\",\n  \"dueDate\": \"<dateTime>\",\n  \"isFree\": \"<boolean>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/status?ids=<long>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														"status"
+													],
+													"query": [
+														{
+															"key": "ids",
+															"value": "<long>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  \"<long>\",\n  \"<long>\"\n]"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8062"
+		}
+	]
+}

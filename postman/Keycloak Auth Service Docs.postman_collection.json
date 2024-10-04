@@ -1,0 +1,1059 @@
+{
+	"info": {
+		"_postman_id": "5a7bb264-bd93-4120-bb0d-0482d031ffe3",
+		"name": "Keycloak Auth Service Docs",
+		"description": "Keycloak Authentication Service API for managing users, roles, and groups. This service connects to Keycloak via the admin CLI to handle authentication, authorization, and JWT token retrieval for secure API access. No roles are required for user registration or login, while the ADMIN role is required for managing groups, roles, or users.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33345950"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "send-verification-email",
+							"item": [
+								{
+									"name": "send Verify Email",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id/send-verification-email/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id",
+												"send-verification-email",
+												""
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/users/:id/send-verification-email/",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"users",
+														":id",
+														"send-verification-email",
+														""
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "roles",
+							"item": [
+								{
+									"name": "get Roles",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id/roles",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id",
+												"roles"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/users/:id/roles",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"users",
+														":id",
+														"roles"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"scopeParamRequired\": \"<boolean>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"aliquip0aa\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"dolor02\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"dolor4_\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"application\": {\n        \"Lorem_8\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"anim_28\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"Ut_8cb\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"scopeParamRequired\": \"<boolean>\",\n    \"composite\": \"<boolean>\",\n    \"composites\": {\n      \"realm\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"client\": {\n        \"minim_\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"application\": {\n        \"tempor_ea5\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"clientRole\": \"<boolean>\",\n    \"containerId\": \"<string>\",\n    \"attributes\": {\n      \"dolore_2a\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n]"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "forgot-password",
+					"item": [
+						{
+							"name": "forgot Password",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/forgot-password?username=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"forgot-password"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/forgot-password?username=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"forgot-password"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "<string>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "roles",
+			"item": [
+				{
+					"name": "{user-id}",
+					"item": [
+						{
+							"name": "assign Role",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/roles/:user-id?role=ADMIN",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"roles",
+										":user-id"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "ADMIN",
+											"description": "(Required) "
+										}
+									],
+									"variable": [
+										{
+											"key": "user-id",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/roles/:user-id?role=ADMIN",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"roles",
+												":user-id"
+											],
+											"query": [
+												{
+													"key": "role",
+													"value": "ADMIN",
+													"description": "(Required) "
+												}
+											],
+											"variable": [
+												{
+													"key": "user-id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						},
+						{
+							"name": "delete Role",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/roles/:user-id?role=ADMIN",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"roles",
+										":user-id"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "ADMIN",
+											"description": "(Required) "
+										}
+									],
+									"variable": [
+										{
+											"key": "user-id",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/roles/:user-id?role=ADMIN",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"roles",
+												":user-id"
+											],
+											"query": [
+												{
+													"key": "role",
+													"value": "ADMIN",
+													"description": "(Required) "
+												}
+											],
+											"variable": [
+												{
+													"key": "user-id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "groups",
+			"item": [
+				{
+					"name": "{userId}",
+					"item": [
+						{
+							"name": "assign Group To User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:userId?group=CUSTOMER",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":userId"
+									],
+									"query": [
+										{
+											"key": "group",
+											"value": "CUSTOMER",
+											"description": "(Required) "
+										}
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/groups/:userId?group=CUSTOMER",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"groups",
+												":userId"
+											],
+											"query": [
+												{
+													"key": "group",
+													"value": "CUSTOMER",
+													"description": "(Required) "
+												}
+											],
+											"variable": [
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "{user-id}",
+					"item": [
+						{
+							"name": "delete Group From User",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:user-id?group=CUSTOMER",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":user-id"
+									],
+									"query": [
+										{
+											"key": "group",
+											"value": "CUSTOMER",
+											"description": "(Required) "
+										}
+									],
+									"variable": [
+										{
+											"key": "user-id",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/groups/:user-id?group=CUSTOMER",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"groups",
+												":user-id"
+											],
+											"query": [
+												{
+													"key": "group",
+													"value": "CUSTOMER",
+													"description": "(Required) "
+												}
+											],
+											"variable": [
+												{
+													"key": "user-id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"item": [
+						{
+							"name": "create User",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"johndoe\",\n  \"password\": \"P@ssw0rd\",\n  \"passwordConfirm\": \"P@ssw0rd\",\n  \"email\": \"johndoe@example.com\",\n  \"firstname\": \"John\",\n  \"lastname\": \"Doe\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"password\": \"<string>\",\n  \"passwordConfirm\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"password\": \"admin\",\n  \"username\": \"admin\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"access_token\": \"<string>\",\n  \"expires_in\": \"<long>\",\n  \"refresh_expires_in\": \"<long>\",\n  \"refresh_token\": \"<string>\",\n  \"token_type\": \"<string>\",\n  \"id_token\": \"<string>\",\n  \"not-before-policy\": \"<integer>\",\n  \"session_state\": \"<string>\",\n  \"scope\": \"<string>\",\n  \"error\": \"<string>\",\n  \"error_description\": \"<string>\",\n  \"error_uri\": \"<string>\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "test",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "for User",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/test/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"test",
+										"user"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/test/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"test",
+												"user"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "<string>"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "admin",
+					"item": [
+						{
+							"name": "for Admin",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/test/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"test",
+										"admin"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/test/admin",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"test",
+												"admin"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "<string>"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8092"
+		}
+	]
+}

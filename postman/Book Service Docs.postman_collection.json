@@ -1,0 +1,766 @@
+{
+	"info": {
+		"_postman_id": "af5f71f0-f1e2-4b9a-9738-bbc4e5252e02",
+		"name": "Book Service Docs",
+		"description": "Book Service API for managing books in the library. When books are created or deleted, its id is sent to the library service via Kafka. No roles are required for retrieving book information, while the ADMIN role is required for creating or updating books.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33345950"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "books",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "get One",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/books/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"author\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"genre\": \"OTHER\",\n  \"id\": \"<long>\",\n  \"isbn\": \"9781328822903\",\n  \"title\": \"<string>\"\n}"
+										}
+									]
+								},
+								{
+									"name": "delete",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/books/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"author\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"genre\": \"OTHER\",\n  \"id\": \"<long>\",\n  \"isbn\": \"9781328822903\",\n  \"title\": \"<string>\"\n}"
+										}
+									]
+								},
+								{
+									"name": "patch",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"description\": \"updated description\",\n  \"title\": \"updated title\",\n  \"authorId\": 2,\n  \"genre\": \"MYSTERY\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/books/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "2",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"authorId\": \"<long>\",\n  \"genre\": \"MYSTERY\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"author\": {\n    \"id\": \"<long>\",\n    \"name\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"genre\": \"OTHER\",\n  \"id\": \"<long>\",\n  \"isbn\": \"9781328822903\",\n  \"title\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "by-ids",
+							"item": [
+								{
+									"name": "get Many",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/books/by-ids?ids=3&ids=4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books",
+												"by-ids"
+											],
+											"query": [
+												{
+													"key": "ids",
+													"value": "3",
+													"description": "(Required) "
+												},
+												{
+													"key": "ids",
+													"value": "4",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/books/by-ids?ids=<long>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"books",
+														"by-ids"
+													],
+													"query": [
+														{
+															"key": "ids",
+															"value": "<long>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"author\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\"\n    },\n    \"description\": \"<string>\",\n    \"genre\": \"HORROR\",\n    \"id\": \"<long>\",\n    \"isbn\": \"0585770751\",\n    \"title\": \"<string>\"\n  },\n  {\n    \"author\": {\n      \"id\": \"<long>\",\n      \"name\": \"<string>\"\n    },\n    \"description\": \"<string>\",\n    \"genre\": \"BIOGRAPHY\",\n    \"id\": \"<long>\",\n    \"isbn\": \"5733602239\",\n    \"title\": \"<string>\"\n  }\n]"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get List",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/books?isbnLike=9780&page=0&size=20&sort=id,asc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "isbnLike",
+											"value": "9780",
+											"description": "ISBN (International Standard Book Number) is a unique 10 or 13-digit identifier for books, validated using the regex /^(?!0{10})[0-9]{9}([0-9]|X)$/ for ISBN-10 and /^(978|979)[0-9]{10}$/ for ISBN-13."
+										},
+										{
+											"key": "page",
+											"value": "0",
+											"description": "Zero-based page index (0..N)"
+										},
+										{
+											"key": "size",
+											"value": "20",
+											"description": "The size of the page to be returned"
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/books?isbnLike=<string>&page=0&size=20&sort=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books"
+											],
+											"query": [
+												{
+													"key": "isbnLike",
+													"value": "<string>"
+												},
+												{
+													"key": "page",
+													"value": "0",
+													"description": "Zero-based page index (0..N)"
+												},
+												{
+													"key": "size",
+													"value": "20",
+													"description": "The size of the page to be returned"
+												},
+												{
+													"key": "sort",
+													"value": "<string>",
+													"description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported."
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"size\": \"<integer>\",\n  \"content\": [\n    {\n      \"author\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"genre\": \"MYSTERY\",\n      \"id\": \"<long>\",\n      \"isbn\": \"7068823676\",\n      \"title\": \"<string>\"\n    },\n    {\n      \"author\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"genre\": \"FICTION\",\n      \"id\": \"<long>\",\n      \"isbn\": \"9786939708035\",\n      \"title\": \"<string>\"\n    }\n  ],\n  \"number\": \"<integer>\",\n  \"sort\": [\n    {\n      \"direction\": \"<string>\",\n      \"nullHandling\": \"<string>\",\n      \"ascending\": \"<boolean>\",\n      \"property\": \"<string>\",\n      \"ignoreCase\": \"<boolean>\"\n    },\n    {\n      \"direction\": \"<string>\",\n      \"nullHandling\": \"<string>\",\n      \"ascending\": \"<boolean>\",\n      \"property\": \"<string>\",\n      \"ignoreCase\": \"<boolean>\"\n    }\n  ],\n  \"first\": \"<boolean>\",\n  \"last\": \"<boolean>\",\n  \"numberOfElements\": \"<integer>\",\n  \"pageable\": {\n    \"offset\": \"<long>\",\n    \"sort\": [\n      {\n        \"direction\": \"<string>\",\n        \"nullHandling\": \"<string>\",\n        \"ascending\": \"<boolean>\",\n        \"property\": \"<string>\",\n        \"ignoreCase\": \"<boolean>\"\n      },\n      {\n        \"direction\": \"<string>\",\n        \"nullHandling\": \"<string>\",\n        \"ascending\": \"<boolean>\",\n        \"property\": \"<string>\",\n        \"ignoreCase\": \"<boolean>\"\n      }\n    ],\n    \"paged\": \"<boolean>\",\n    \"pageNumber\": \"<integer>\",\n    \"pageSize\": \"<integer>\",\n    \"unpaged\": \"<boolean>\"\n  },\n  \"empty\": \"<boolean>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"authorId\": 3,\n  \"description\": \"new description\",\n  \"genre\": \"MYSTERY\",\n  \"isbn\": \"6638605390\",\n  \"title\": \"new title\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"books"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"authorId\": \"<long>\",\n  \"description\": \"<string>\",\n  \"genre\": \"MYSTERY\",\n  \"isbn\": \"6638605390\",\n  \"title\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/books",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						},
+						{
+							"name": "delete Many",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/v1/books?ids=2&ids=3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "ids",
+											"value": "2",
+											"description": "(Required) "
+										},
+										{
+											"key": "ids",
+											"value": "3",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/books?ids=<long>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books"
+											],
+											"query": [
+												{
+													"key": "ids",
+													"value": "<long>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "patch Many",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"description\": \"updated description\",\n  \"title\": \"updated title\",\n  \"authorId\": 2,\n  \"genre\": \"MYSTERY\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/books?ids=1&ids=2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "ids",
+											"value": "1",
+											"description": "(Required) "
+										},
+										{
+											"key": "ids",
+											"value": "2",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Books successfully updated. Returns a list of IDs of the updated books.",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"authorId\": \"<long>\",\n  \"genre\": \"MYSTERY\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/v1/books?ids=<long>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"books"
+											],
+											"query": [
+												{
+													"key": "ids",
+													"value": "<long>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  \"<long>\",\n  \"<long>\"\n]"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8063"
+		}
+	]
+}
