@@ -1,9 +1,7 @@
 package com.libraryapp.bookservice.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.LinkedHashSet;
@@ -15,6 +13,9 @@ import java.util.Set;
 @Entity
 @ToString
 @Table(name = "author")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,7 @@ public class Author {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @Builder.Default
     @ToString.Exclude
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Book> books = new LinkedHashSet<>();

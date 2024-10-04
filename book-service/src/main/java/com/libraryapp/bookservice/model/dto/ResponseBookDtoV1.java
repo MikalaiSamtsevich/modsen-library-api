@@ -2,9 +2,11 @@ package com.libraryapp.bookservice.model.dto;
 
 import com.libraryapp.bookservice.model.Genre;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Value;
 
 @Value
+@Builder
 public class ResponseBookDtoV1 {
 
     @NotNull(message = "ID must not be null")

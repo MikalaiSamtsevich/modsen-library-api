@@ -2,12 +2,14 @@ package com.libraryapp.bookservice.model.dto;
 
 import com.libraryapp.bookservice.model.Genre;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Value;
 
 /**
  * DTO for {@link com.libraryapp.bookservice.model.Book}
  */
 @Value
+@Builder
 public class RequestBookDtoV1 {
 
     @NotBlank(message = "ISBN must not be blank")

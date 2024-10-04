@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -42,8 +44,9 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseBookDtoV1 create(@RequestBody @Valid RequestBookDtoV1 dto) {
-        return bookService.create(dto);
+    public ResponseEntity<?> create(@RequestBody @Valid RequestBookDtoV1 dto) {
+        var createdDto = bookService.create(dto);
+        return ResponseEntity.created(URI.create("/v1/books/" + createdDto.getId())).body(createdDto);
     }
 
     @Operation(

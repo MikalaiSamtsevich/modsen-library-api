@@ -4,12 +4,14 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Value;
 
 /**
  * DTO for {@link com.libraryapp.bookservice.model.Author}
  */
 @Value
+@Builder
 public class AuthorDto {
 
     @Min(value = 1, message = "Author ID must be greater than 0")

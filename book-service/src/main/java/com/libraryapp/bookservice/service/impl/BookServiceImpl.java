@@ -123,10 +123,8 @@ public class BookServiceImpl implements BookService {
     public ResponseBookDtoV1 delete(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with id `%s` not found".formatted(id)));
-        if (book != null) {
-            bookRepository.delete(book);
-            kafkaBookProducer.sendBookDeletedMessage(book.getId());
-        }
+        bookRepository.delete(book);
+        kafkaBookProducer.sendBookDeletedMessage(book.getId());
         return bookMapper.toDto(book);
     }
 

@@ -2,15 +2,16 @@ package com.libraryapp.bookservice.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @Table(name = "book")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
