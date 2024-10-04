@@ -244,6 +244,40 @@ The test reports are located at `customJacocoReportDir/index.html`. You can open
 
 --- 
 
+## Importing Postman Collection
+
+To test the microservices, you can easily import the Postman collection included in this project. Follow the steps below:
+
+1. **Import the Collection:**
+    - Open Postman.
+    - Click on the "Import" button.
+    - Select the `postman` directory from the root of the project.
+    - Import the collections for the following microservices:
+        - `Keycloak auth service`
+        - `Book service`
+        - `Library service`
+
+2. **Accessing Endpoints with Authorization:**
+    - In Postman, navigate to the **Keycloak Auth Service Docs** collection.
+    - Go to the **auth** folder.
+    - Open the **login** folder and find the endpoint `POST /auth/login`.
+    - In the **Body**, enter the following credentials:
+        - **username:** `admin`
+        - **password:** `admin`
+    - The `admin` user has the role **ADMIN**, which provides access to the entire application.
+
+   Alternatively, there is a user with the username `user` and password `user`, who has a **USER** role. This user can also create their own account through the `POST /auth/register` endpoint in the same microservice.
+
+3. **Getting the Access Token:**
+    - After logging in, you will receive an `access_token`.
+    - Copy this token and create an environment variable in Postman:
+        - Variable Name: `{{bearerToken}}`
+        - Value: Paste the copied token here.
+
+You can now use `{{bearerToken}}` in the Authorization header for endpoints that require authentication.
+
+---
+
 ## Conclusion
 
 This project follows a modern, microservice-based architecture, using the latest in **Java**, **Spring Boot**, **Kafka**, and **Kubernetes** to provide a scalable, efficient, and observable solution for managing books and users. With real-time messaging, secure user authentication, and comprehensive monitoring, this architecture is both flexible and robust.
