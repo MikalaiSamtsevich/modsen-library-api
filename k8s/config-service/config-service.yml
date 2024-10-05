@@ -14,9 +14,9 @@ spec:
         app: config-service
     spec:
       initContainers:
-        - name: wait-for-eureka
+        - name: wait-for-otel-collector
           image: busybox
-          command: [ 'sh', '-c', 'until nc -z otel-collector 4317; do echo waiting for eureka; sleep 2; done;' ]
+          command: [ 'sh', '-c', 'until nc -z otel-collector 4317; do echo waiting for otel-collector; sleep 2; done;' ]
       containers:
         - name: config-service
           image: nixn/config-service:latest

@@ -1,8 +1,11 @@
 package com.libraryapp.libraryservice.integration;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.libraryapp.libraryservice.model.dto.ResponseBookStatusDtoV1;
 import com.libraryapp.libraryservice.model.dto.UpdateBookStatusDtoV1;
 import com.libraryapp.libraryservice.util.DataUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.Objects;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,6 +38,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Tag("integration")
 class BookStatusApplicationTest {
 
+    WireMockServer wireMockServer;
+
+    @Value("${wiremock.port}")
+    Integer wireMockPort;
 
     public static final String API_BOOKS_PATH = "/v1/books/status";
 
@@ -49,7 +57,6 @@ class BookStatusApplicationTest {
     @Container
     static KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.7.1"));
 
-
     @Container
     @ServiceConnection
     static PostgreSQLContainer<?> postgreSQLContainer =
@@ -61,6 +68,23 @@ class BookStatusApplicationTest {
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
         registry.add("spring.kafka.bootstrap-servers", kafkaContainer::getBootstrapServers);
+    }
+
+    @BeforeEach
+    public void setup() {
+        wireMockServer = new WireMockServer(wireMockPort);
+        wireMockServer.start();
+
+        // Настройка мока для проверки токена
+        wireMockServer.stubFor(get(urlEqualTo("/realms/spring-boot/protocol/openid-connect/certs"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBodyFile("jwk.json")));
+    }
+
+    @AfterEach
+    public void teardown() {
+        wireMockServer.stop();
     }
 
 
