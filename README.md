@@ -25,7 +25,7 @@ The **Modsen Library API** utilizes the following core technologies:
 - **Keycloak**: Provides user authentication and authorization.
 - **Swagger**: API documentation and testing.
 - **Docker** and **Docker BuildKit**: Containerization of microservices with optimized builds.
-- **Kubernetes (Minikube)**: Orchestrating containers for production-like deployment.
+- **Kubernetes**: Orchestrating containers for production-like deployment.
 - **Helm**: Package manager for Kubernetes.
 - **Grafana Stack**:
     - **Grafana**: Dashboard for monitoring metrics and logs.
@@ -112,15 +112,7 @@ This will launch all microservices, tools (Kafka, Keycloak), and dependencies in
 
 ---
 
-### Running in Kubernetes with Minikube
-
-#### Start Minikube:
-
-Ensure Minikube is running with at least 3 CPUs and 5000 MB of memory, as lower configurations can cause issues during deployment.
-
-```bash
-minikube start --cpus=3 --memory=5000
-```
+### Running in Kubernetes
 
 #### Install Helm:
 
@@ -143,14 +135,6 @@ Go to the project root directory and deploy all services in Kubernetes by applyi
 
 ```bash
 kubectl apply -R -f k8s
-```
-
-#### Access Minikube Tunnel:
-
-Once all services are up (this may take a few minutes), run **Minikube Tunnel** to access Swagger, Grafana, and Keycloak:
-
-```bash
-minikube tunnel
 ```
 
 ---
@@ -195,6 +179,8 @@ The application is integrated with **Grafana Stack** for complete observability.
 ---
 
 ## Running Tests
+
+To execute the tests, you need to first start the `config-service`. Ensure that it is running and accessible before proceeding to test the other services.
 
 You can run tests for each service using the following commands:
 
