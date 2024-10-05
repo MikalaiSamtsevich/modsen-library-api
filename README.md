@@ -114,6 +114,10 @@ This will launch all microservices, tools (Kafka, Keycloak), and dependencies in
 
 ### Running in Kubernetes
 
+#### WARNING
+To run this application in a Kubernetes environment, a minimum of **6 GB of RAM** and **3 CPU cores** is required. Ensure your cluster meets these specifications to avoid performance issues.
+
+
 #### Install Helm:
 
 Install **Helm** to manage Kubernetes deployments. Instructions can be found at [Helm Installation](https://helm.sh/docs/intro/install/).
